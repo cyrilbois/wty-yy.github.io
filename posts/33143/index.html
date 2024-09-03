@@ -1,0 +1,1053 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://s4.ax1x.com/2021/12/22/TQjIaQ.png">
+  <link rel="icon" href="https://s4.ax1x.com/2021/12/22/TQjIaQ.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="wty">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="已结束的全部比赛代码：GitHub - 海选赛全部代码，GitHub - 学习期全部代码 下文主要介绍了本次比赛对源码的学习，由于是第一次参赛，对整个框架比较陌生，所以简单介绍下我通过学习源码对分布式框架逻辑的理解，以及如何在此基础上完成一个PPO算法。  重返秘境  该比赛排名第6（1380.17分，尽管在自己测试300局中平均得分为1383分），第一名1381.83分，失败的主要原因是30次评">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2024开悟智能体比赛（海选赛）">
+<meta property="og:url" content="https://wty-yy.github.io/posts/33143/index.html">
+<meta property="og:site_name" content="wty&#39;s blog">
+<meta property="og:description" content="已结束的全部比赛代码：GitHub - 海选赛全部代码，GitHub - 学习期全部代码 下文主要介绍了本次比赛对源码的学习，由于是第一次参赛，对整个框架比较陌生，所以简单介绍下我通过学习源码对分布式框架逻辑的理解，以及如何在此基础上完成一个PPO算法。  重返秘境  该比赛排名第6（1380.17分，尽管在自己测试300局中平均得分为1383分），第一名1381.83分，失败的主要原因是30次评">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/result4.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/result1.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/result3.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/result2.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/bad1.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/kaiwu_workframe.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/tb1.png">
+<meta property="article:published_time" content="2024-09-03T03:36:19.000Z">
+<meta property="article:modified_time" content="2024-09-03T14:12:05.830Z">
+<meta property="article:author" content="wty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wty-yy.github.io/figures/competitions/kaiwu/result4.png">
+  
+  
+  
+  <title>2024开悟智能体比赛（海选赛） - wty&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.26.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.15.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/fold_code.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_3429772_kq6ntj4nzdo.css">
+<link rel="stylesheet" href="//fastly.jsdelivr.net/gh/bynotes/texiao/source/css/toubudaziji.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wty-yy.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":"843a38ffdc8864dd30e250b723a1a8ca","google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Home</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/020109/" target="_self">
+                    
+                    <span>杂记</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/18857/" target="_self">
+                    
+                    <span>模板&dotfiles</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/64648/" target="_self">
+                    
+                    <span>常用命令及函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/57899/" target="_self">
+                    
+                    <span>算法总结</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/20023/" target="_self">
+                    
+                    <span>Linux杂记</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://s4.ax1x.com/2021/12/22/TQOxyT.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2024开悟智能体比赛（海选赛）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-03 11:36" pubdate>
+          2024年9月3日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2024开悟智能体比赛（海选赛）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>已结束的全部比赛代码</strong>：<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/secret_realm/code">GitHub - 海选赛全部代码</a>，<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/gorgewalk/code">GitHub - 学习期全部代码</a></p>
+<p>下文主要介绍了本次比赛对源码的学习，由于是第一次参赛，对整个框架比较陌生，所以简单介绍下我通过学习源码对分布式框架逻辑的理解，以及如何在此基础上完成一个PPO算法。</p>
+<h2 id="重返秘境"><a class="markdownIt-Anchor" href="#重返秘境"></a> 重返秘境</h2>
+<blockquote>
+<p>该比赛排名第6（1380.17分，尽管在自己测试300局中平均得分为1383分），第一名1381.83分，失败的主要原因是30次评测中（总共9个随机宝箱），其中有一次评测中只捡了8个，否则可以超过第一名1分以上，只能说智能体还是不够稳定，测试方法不够好（总共也就715种宝箱分布情况，没有全部考虑到），奖励设计还是问题，宝箱遗漏的负惩罚仍然不够大。</p>
+</blockquote>
+<p>PPO算法可以在上述源码中<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/secret_realm/code/diy">diy文件夹</a>下找到，v1.2的训练总时长为33+20+31.5+12.5=97小时（8~12进程）效果如下图所示，训练12.5小时已经能达到1350分了。</p>
+<p><img src="/figures/competitions/kaiwu/result4.png" srcset="/img/loading.gif" lazyload alt="海选赛最终成绩" /><br />
+<img src="/figures/competitions/kaiwu/result1.png" srcset="/img/loading.gif" lazyload alt="自测v1.2.2部分结果（没用1.2.2因为出现了5次测试中出现了一次1381的均分）" /><br />
+<img src="/figures/competitions/kaiwu/result3.png" srcset="/img/loading.gif" lazyload alt="自测v1.2部分结果（5次测试均在1382和1383）" /><br />
+<img src="/figures/competitions/kaiwu/result2.png" srcset="/img/loading.gif" lazyload alt="比赛部分对局结果" /><br />
+<img src="/figures/competitions/kaiwu/bad1.png" srcset="/img/loading.gif" lazyload alt="最终比赛时出现的错误寻路结果" /></p>
+<p>代码基础框架和学习期相同，本次难点在于分布式框架的使用，由于我不喜欢用DQN，只能尝试写PPO</p>
+<h3 id="前置芝士"><a class="markdownIt-Anchor" href="#前置芝士"></a> 前置芝士</h3>
+<p>下文中所有的配置参数，若无特殊说明，默认在 <code>conf/configure_app.toml</code> 中，如果没有对应变量名，则需要自己加入（toml语法可以<a target="_blank" rel="noopener" href="https://toml.io/cn">参考官网</a>，可以在vscode中安装toml插件进行渲染）</p>
+<p>这里的智能体代码我们都已 <code>diy</code> 中的为例，代码结构如下（必要部分）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">└── code
+    ├── conf
+    │   │ <span class="token comment"># 自定义的配置文件，也是最高优先级，可以覆盖他们的默认配置</span>
+    │   └── configure_app.toml
+    └── diy
+        ├── algorithm
+        │   │ <span class="token comment"># 我们定义的智能体Agent类，必须有他们要求的6个函数</span>
+        │   │ <span class="token comment"># __init__, predict, exploit, learn, save_model, load_model</span>
+        │   └── agent.py
+        ├── feature
+        │   │ <span class="token comment"># 对SampleData, ObsData, ActData,</span>
+        │   │ <span class="token comment"># observation_process, action_process, sample_process, </span>
+        │   │ <span class="token comment"># SampleData2NumpyData, NumpyData2SampleData进行定义，</span>
+        │   │ <span class="token comment"># 定义并转换存入buffer的数据结构</span>
+        │   └── definition.py
+        │ <span class="token comment"># 配置文件，</span>
+        │ <span class="token comment"># 必须保证Config类中的SAMPLE_DIM</span>
+        │ <span class="token comment"># 和NumpyData2SampleData函数数据对齐，否则可能报样本维度错误</span>
+        ├── config.py
+        │ <span class="token comment"># 模型训练时会调用的训练工作流，用于样本的采样与buffer存入</span>
+        └── train_workflow.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>实现了这些内容后，有两种<strong>启动单进程训练</strong>的方法（用于调试）：</p>
+<ol>
+<li>将 <code>train_test.py</code> 中设置为 <code>algorithm_name = &quot;diy&quot;</code> 执行 <code>train_test.py</code> 就可以训练了。</li>
+<li>将 <code>configure_app.toml</code> 中的参数设置为 <code>algo = &quot;diy&quot;</code>，执行 <code>./tools/start.sh</code> 即可开始训练。</li>
+</ol>
+<p>执行 <code>./tools/stop.sh all</code> 可以杀死所有进程。</p>
+<h3 id="localremote训练逻辑"><a class="markdownIt-Anchor" href="#localremote训练逻辑"></a> local/remote训练逻辑</h3>
+<p>两种训练模式local/remote，这关系到进程的创建数目（海选赛和学习期的不同之处），也正如官方所说的，确实可以做到了两种模式下，代码都可以直接运行，最大区别在于local不存在buffer，而remote会创建一个buffer存储aisrv产生的样本。</p>
+<blockquote>
+<p>下面的逻辑分析都是通过查看源码获得，分析方法主要是基于Python中的traceback函数，自己写了一个打印回调信息的函数 <a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024/blob/master/secret_realm/code/diy/utils/__init__.py#L32"><code>show_debug</code></a>，对源码中的每个部分分别加入该函数进行调试。逻辑分析的过程请见<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/master/assets/code_logic.md#%E5%88%86%E5%B8%83%E5%BC%8F%E5%BC%80%E5%8F%91">code_logic.md</a>，里面有更详细的调用关系，以下内容为精简版。</p>
+</blockquote>
+<p>用drawio简单画了个示意图（画的挺烂的😟），对每个部分的详细介绍请见下文<br />
+<img src="/figures/competitions/kaiwu/kaiwu_workframe.png" srcset="/img/loading.gif" lazyload alt="开悟分布式架构（极简版）" /></p>
+<p><strong>local/remote训练模式</strong>：配置参数 <code>wrapper_type</code> 即可对其进行修改，有两个配置：</p>
+<ul>
+<li><code>&quot;local&quot;</code>：也就是学习期的本地训练，该模式下，系统不会对你的 <code>Agent</code> 进行包装，仅包含<strong>一个训练进程aisrv</strong>，也就是RL最简单的训练模式，初始化环境、智能体、buffer，通过智能体与环境交互获得样本存储在buffer中，训练时从中进行采样，更新value和policy网络。</li>
+<li><code>&quot;remote&quot;</code>：也就是海选赛的多进程训练模式，该模式下，系统会创建如下几个进程：
+<ul>
+<li>learner：
+<ul>
+<li>功能：用于处理buffer中采样的样本，更新value和policy网络，保存网络参数。</li>
+<li>介绍：包含一个实例化的 <code>agent</code>。该进程只会调用 <code>agent.learn</code> 函数，<strong>且调用该函数不受我们写的代码控制</strong>，仅根据配置中的buffer逻辑进行后台进行自动调用，参考下文中buffer的介绍。</li>
+<li>注意：在 <code>learn</code> 中调用 <code>save_model</code> 函数只会将模型保存到本机。</li>
+</ul>
+</li>
+<li>actor：
+<ul>
+<li>功能：基于状态进行探索动作的预测，并会自动从 <code>model_pool</code> 中更新模型参数。</li>
+<li>介绍：包含一个实例化的 <code>agent</code>。该进程只会调用 <code>agent.predict, load_model</code>，这个函数输入的状态信息是由 <code>aisrv</code> 通过tcp发送到该进程的（如果每个环境都单开一个非常容易导致显存爆炸，并且分布式下也不一定所有服务器都有显卡），因此所有的 <code>aisrv</code> 都共享的是一个相同的 <code>agent</code> 实例，该 <code>agent</code> 的权重更新会用到 <code>model_pool</code>，此逻辑会在下文进行介绍。</li>
+</ul>
+</li>
+<li>aisrv：
+<ul>
+<li>功能：使用 <code>actor</code> 中的 <code>agent</code> 与一个独立的环境进行交互，产生样本保存到buffer中。</li>
+<li>介绍：包含一个实例化的环境 <code>env</code>，<strong>该进程会调用 <code>train_workflow.workflow</code> 函数</strong>。注意传入的 <code>agent</code> 不是你写的 <code>Agent</code> 类实例化结果，而是 <code>actor</code> 的，调用所有 <code>predict, load_model</code> 函数都会通过tcp和 <code>actor</code> 进行通讯，而 <code>learn</code> 函数则不会起到作用（由后台根据采样逻辑进行采样并发送learner训练），发送样本到buffer的函数则是 <code>sample_process</code>。</li>
+</ul>
+</li>
+<li>buffer：
+<ul>
+<li>功能：存储aisrv通过 <code>sample_process</code> 发送的样本，并基于采样策略进行采样。</li>
+<li>介绍：包含一个从 <code>reverb</code> 包(Deepmind)中实例化的buffer。因此buffer的采样和移除策略可以<a target="_blank" rel="noopener" href="https://github.com/google-deepmind/reverb">参考官方文档</a>，常用的采样策略为均匀采样 <code>Uniform</code>，移除策略为顺序移除（可以把他想象成一个队列，加入样本就是进队尾，顺序移除就是弹出队首），这个配置相关参数为 <code>reverb_remover, reverb_sampler</code>。</li>
+</ul>
+</li>
+<li>model_pool：
+<ul>
+<li>功能：自动同步learner保存的模型（保存频率为配置中的 <code>dump_model_freq</code>，同步时间为 <code>model_file_sync_per_minutes</code>，单位分钟），处理actor或aisrv通过 <code>load_model</code> 进行读取模型的请求。</li>
+<li>介绍：同步learner保存的模型仅能从框架基于 <code>dump_model_freq</code> 自动保存的位置进行读取（保存到上图右上角framework存储位置），也无法手动进行同步，只能通过配置指定的同步时间 <code>model_file_sync_per_minutes</code> 自动进行同步（由于他还进行了取整处理，因此最小同步时间为1分钟）。</li>
+<li>注意：model_pool和保存在本机 <code>train/backup_model</code> 的模型不同，model_pool是存储到容器中的，而后者是存储在本机的挂载目录下（也就是宿主机）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>分布式的启动方法我估计是客户端写了docker compose配置文件，通过compose功能同时开了多个容器（更多的env和aisrv进程）使他们之间用tcp通讯，还没研究这块具体是怎么做到的。。。</p>
+</blockquote>
+<h3 id="ppo的具体实现细节"><a class="markdownIt-Anchor" href="#ppo的具体实现细节"></a> PPO的具体实现细节</h3>
+<blockquote>
+<p>在GitHub中也记录了当初<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/secret_realm/code#distribution-ppo">实现PPO注意的细节</a></p>
+<p>这里大部分把之前<a target="_blank" rel="noopener" href="https://aiarena.tencent.com/community/d/505-you-mei-you-yong-ppode-lao-jiao-liu-yi-xia/28">论坛</a>回复的内容copy了一些😅</p>
+</blockquote>
+<p>主要就是把gae放到learner中算(得到return和adv), buffer中每个样本存的是一段轨迹, 而logprob使用的是actor采样时候的值, buffer的修改，请见 <a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/master/secret_realm/code/diy/feature/definition.py"><code>definition.py</code></a>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">SampleData <span class="token operator">=</span> create_cls<span class="token punctuation">(</span><span class="token string">"SampleData"</span><span class="token punctuation">,</span> obs<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> actions<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span>
+  rewards<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> dones<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> next_obs<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> next_done<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span>
+  logprobs<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@attached</span>
+<span class="token keyword">def</span> <span class="token function">NumpyData2SampleData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># buffer中取出来以后转换</span>
+  n <span class="token operator">=</span> args<span class="token punctuation">.</span>num_steps  <span class="token comment"># 我设的是128, 就是存储到buffer中的一小段轨迹长度</span>
+  obs_dim <span class="token operator">=</span> args<span class="token punctuation">.</span>obs_dim
+  <span class="token keyword">return</span> SampleData<span class="token punctuation">(</span>
+    obs<span class="token operator">=</span>data<span class="token punctuation">[</span><span class="token punctuation">:</span>n<span class="token operator">*</span>obs_dim<span class="token punctuation">]</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>n<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    actions<span class="token operator">=</span>data<span class="token punctuation">[</span>n<span class="token operator">*</span>obs_dim<span class="token punctuation">:</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    rewards<span class="token operator">=</span>data<span class="token punctuation">[</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    dones<span class="token operator">=</span>data<span class="token punctuation">[</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    logprobs<span class="token operator">=</span>data<span class="token punctuation">[</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    next_obs<span class="token operator">=</span>data<span class="token punctuation">[</span>n<span class="token operator">*</span><span class="token punctuation">(</span>obs_dim<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    next_done<span class="token operator">=</span>data<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/master/secret_realm/code/conf/configure_app.toml"><code>configure_app.toml</code></a> 配置文件做的修改如下（大概率不是最优的，没有进行微调）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-toml" data-language="toml"><code class="language-toml"><span class="token comment"># 注: learner_train_by_while_true 在9.2.2最后一次更新后就只能设置为True才能使用（不清楚为什么，单机模式下没有测出问题），</span>
+<span class="token comment"># 也就是只能定时训练，那么只能自己手动计算一个样本产生所用的时间，</span>
+<span class="token comment"># 再调整learner_train_sleep_seconds为10个样本生成所需的时间（非常麻烦）</span>
+<span class="token key property">learner_train_by_while_true</span> <span class="token punctuation">=</span> <span class="token boolean">false</span>  <span class="token comment"># 关了这个production_consume_ratio才有用</span>
+<span class="token key property">replay_buffer_capacity</span> <span class="token punctuation">=</span> <span class="token number">120</span>  <span class="token comment"># process * 10</span>
+<span class="token key property">preload_ratio</span> <span class="token punctuation">=</span> <span class="token number">2</span>  <span class="token comment"># 当buffer中存在replay_buffer_capacity/preload_ratio个样本时,开始训练,(也要要求learner_train_by_while_true=False)</span>
+<span class="token key property">train_batch_size</span> <span class="token punctuation">=</span> <span class="token number">36</span>  <span class="token comment"># learner训练批处理大小限制, process * 3</span>
+<span class="token key property">production_consume_ratio</span> <span class="token punctuation">=</span> <span class="token number">3</span>  <span class="token comment"># 消耗/生成比</span>
+<span class="token key property">reverb_sampler</span> <span class="token punctuation">=</span> <span class="token string">"reverb.selectors.Uniform"</span>
+<span class="token key property">dump_model_freq</span> <span class="token punctuation">=</span> <span class="token number">2</span>  <span class="token comment"># PPO要求actor和learner模型差距不能太大, 提高同步模型的保存频率</span>
+<span class="token key property">model_file_sync_per_minutes</span> <span class="token punctuation">=</span> <span class="token number">1</span>  <span class="token comment"># 这个是模型同步到模型池的同步时间 (单位分钟, 最小1min)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>最后为了避免存储的模型太多导致内存爆炸，我写了个自动删除旧模型的函数，在<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/algorithm/agent.py#L222">learner</a>和<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/4714315cfd8202f38a38772e9e60f4d2b46ceb6b/secret_realm/code/diy/train_workflow.py#L87">aisrv</a>中周期性调用。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> kaiwudrl<span class="token punctuation">.</span>common<span class="token punctuation">.</span>config<span class="token punctuation">.</span>config_control <span class="token keyword">import</span> CONFIG
+
+<span class="token keyword">def</span> <span class="token function">clean_ckpt_memory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token triple-quoted-string string">"""
+  Remove old checkpoints generate by autosave (save frequency=CONFIG.dump_model_freq),
+  you can find autosave code at
+  `kaiwudrl.common.algorithms.standard_model_wrapper_pytorch.StandardModelWrapperPytorch.after_train()`
+
+  Usage: Call this function in `agent.learn(...)` or `train_workflow.workflow`, 
+  recommend in `agent.learn(...)` since it is a single process,
+  add small delay as you like~~~
+  """</span>
+  path_tmp_dir <span class="token operator">=</span> Path<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>CONFIG<span class="token punctuation">.</span>restore_dir<span class="token punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">&#123;</span>CONFIG<span class="token punctuation">.</span>app<span class="token punctuation">&#125;</span></span><span class="token string">_</span><span class="token interpolation"><span class="token punctuation">&#123;</span>CONFIG<span class="token punctuation">.</span>algo<span class="token punctuation">&#125;</span></span><span class="token string">/"</span></span><span class="token punctuation">)</span>
+  files <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span>path_tmp_dir<span class="token punctuation">.</span>glob<span class="token punctuation">(</span><span class="token string">'model.ckpt-*'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>rsplit<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>rsplit<span class="token punctuation">(</span><span class="token string">'-'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>files<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span> <span class="token keyword">return</span>
+  <span class="token keyword">for</span> p <span class="token keyword">in</span> files<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>  <span class="token comment"># just keep latest checkpoint</span>
+    p<span class="token punctuation">.</span>unlink<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>详细代码请见<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/secret_realm/code/diy">diy/</a>文件夹，PPO算法参考的是<a target="_blank" rel="noopener" href="https://docs.cleanrl.dev/rl-algorithms/ppo/">cleanrl - PPO</a>。</p>
+<h3 id="tensorboard使用方法"><a class="markdownIt-Anchor" href="#tensorboard使用方法"></a> Tensorboard使用方法</h3>
+<p>由于实在不习惯官方给的记录软件，还是用了传统的Tensorboard，效果图如下<br />
+<img src="/figures/competitions/kaiwu/tb1.png" srcset="/img/loading.gif" lazyload alt="Tensorboard效果图（上面是12个环境每个环境结束时记录的信息，下面为learner训练记录的信息）" /></p>
+<p>在 <code>agent.py</code> 里面实现了一个下面这个初始化 <code>writer</code> 的<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/algorithm/agent.py#L28"><code>init_writer</code> 函数</a></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> os<span class="token punctuation">,</span> time
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+<span class="token keyword">from</span> torch<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>tensorboard <span class="token keyword">import</span> SummaryWriter
+
+PATH_ROOT <span class="token operator">=</span> Path<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span><span class="token punctuation">.</span>parents<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+PATH_LOGS_DIR <span class="token operator">=</span> PATH_ROOT <span class="token operator">/</span> <span class="token string">"log/tensorboard"</span>
+PATH_LOGS_DIR<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span>exist_ok<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> parents<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">init_writer</span><span class="token punctuation">(</span>agent_type<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 起个名字</span>
+    run_name <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"secret_realm_</span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_type<span class="token punctuation">&#125;</span></span><span class="token string">_pid</span><span class="token interpolation"><span class="token punctuation">&#123;</span>os<span class="token punctuation">.</span>getpid<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">_</span><span class="token interpolation"><span class="token punctuation">&#123;</span>time<span class="token punctuation">.</span>strftime<span class="token punctuation">(</span><span class="token string">r'%Y%m%d_%H%M%S'</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+    writer <span class="token operator">=</span> SummaryWriter<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">(</span>PATH_LOGS_DIR <span class="token operator">/</span> run_name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> writer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>然后分别在learner和aisrv初始化时候创建它，learner也就是在<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/algorithm/agent.py#L46">初始化 <code>Agent</code></a>时候，aisrv也就是在<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/train_workflow.py#L22">刚进入<code>train_workflow.py</code>时候</a>（这里不要在Agent中初始化原因是, 所有的aisrv其实公用的同一个Agent实例化结果, 所以他只会被创建一次）</p>
+<p>然后就和正常使用tensorboard一样记录就好了, 比如在<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/train_workflow.py#L49">环境结束</a>时：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">if</span> env<span class="token punctuation">.</span>done<span class="token punctuation">:</span>
+  logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"pid=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>os<span class="token punctuation">.</span>getpid<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string"> End episode: gloabl_step=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>global_step<span class="token punctuation">&#125;</span></span><span class="token string">, episodic_reward=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>env<span class="token punctuation">.</span>total_reward<span class="token punctuation">:</span><span class="token format-spec">.2f</span><span class="token punctuation">&#125;</span></span><span class="token string">, "</span></span> <span class="token operator">+</span>
+           <span class="token string-interpolation"><span class="token string">f"episodic_score=</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">int</span><span class="token punctuation">(</span>env<span class="token punctuation">.</span>total_score<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">, "</span></span> <span class="token operator">+</span>
+           <span class="token string-interpolation"><span class="token string">f"miss_treasure=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>env<span class="token punctuation">.</span>miss_treasure<span class="token punctuation">&#125;</span></span><span class="token string">, n_treasure=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>env<span class="token punctuation">.</span>n_treasure<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/episodic_reward"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>total_reward<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/episodic_score"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>total_score<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/episodic_length"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>n_step<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/hit_wall"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>total_hit_wall<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/miss_treasure"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>miss_treasure<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/n_treasure"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>n_treasure<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/total_flash"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>total_flash<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span>
+  writer<span class="token punctuation">.</span>add_scalar<span class="token punctuation">(</span><span class="token string">"charts/miss_buffer"</span><span class="token punctuation">,</span> env<span class="token punctuation">.</span>miss_buffer<span class="token punctuation">,</span> global_step<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><strong>启动方法</strong>：</p>
+<ul>
+<li>如果是从客户端启动训练，直接通过 <code>tensorboard --logdir [你的工作路径]\train\log\tensorboard</code> 就可以实时看训练曲线了。</li>
+<li>如果是从直接运行的 <code>train_test.py</code> 那就直接在 <code>[你的工作路径]\code\log\tensorboard</code> 下打开就行了.</li>
+</ul>
+<h3 id="网络结构与特征设计"><a class="markdownIt-Anchor" href="#网络结构与特征设计"></a> 网络结构与特征设计</h3>
+<blockquote>
+<p>由于没有使用官方给的dqn，这部分也顺便全部重写了。</p>
+</blockquote>
+<p>我们设计的网络极为简单：纯CNN+拼接+MLP（不能在简单了吧😂），代码为<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/master/secret_realm/code/diy/algorithm/model.py">model.py</a></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Backbone</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>cnn <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>
+      nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token number">7</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>Flatten<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">4096</span><span class="token punctuation">,</span> <span class="token number">512</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>fc <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>
+      nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token operator">+</span>args<span class="token punctuation">.</span>observation_vec_shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">512</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span><span class="token builtin">apply</span><span class="token punctuation">(</span>layer_init<span class="token punctuation">)</span>
+
+  <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    obs_size <span class="token operator">=</span> np<span class="token punctuation">.</span>prod<span class="token punctuation">(</span>args<span class="token punctuation">.</span>observation_img_shape<span class="token punctuation">)</span>
+    B <span class="token operator">=</span> x<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    img<span class="token punctuation">,</span> vec <span class="token operator">=</span> x<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token punctuation">:</span>obs_size<span class="token punctuation">]</span><span class="token punctuation">,</span> x<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> obs_size<span class="token punctuation">:</span><span class="token punctuation">]</span>
+    img <span class="token operator">=</span> img<span class="token punctuation">.</span>view<span class="token punctuation">(</span>B<span class="token punctuation">,</span> <span class="token operator">*</span>args<span class="token punctuation">.</span>observation_img_shape<span class="token punctuation">)</span>
+    x <span class="token operator">=</span> torch<span class="token punctuation">.</span>cat<span class="token punctuation">(</span><span class="token punctuation">[</span>self<span class="token punctuation">.</span>cnn<span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">,</span> vec<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> self<span class="token punctuation">.</span>fc<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>输入的特征处理函数为<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/feature/definition.py#L286">definition.observation_process</a>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">feature <span class="token operator">=</span> np<span class="token punctuation">.</span>hstack<span class="token punctuation">(</span><span class="token punctuation">[</span>
+  np<span class="token punctuation">.</span>stack<span class="token punctuation">(</span><span class="token punctuation">[</span>  <span class="token comment"># 图像特征: (4, 51, 51)</span>
+    obs<span class="token punctuation">[</span><span class="token string">'obstacle_map'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    obs<span class="token punctuation">[</span><span class="token string">'memory_map'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    obs<span class="token punctuation">[</span><span class="token string">'treasure_map'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    obs<span class="token punctuation">[</span><span class="token string">'end_map'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token comment"># 线性特征: (31,)</span>
+  <span class="token operator">*</span>obs<span class="token punctuation">[</span><span class="token string">'norm_pos'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token operator">*</span>obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token operator">*</span>obs<span class="token punctuation">[</span><span class="token string">'treasure_grid_distance'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  obs<span class="token punctuation">[</span><span class="token string">'buff_flag'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  obs<span class="token punctuation">[</span><span class="token string">'buff_pos'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'grid_distance'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  obs<span class="token punctuation">[</span><span class="token string">'end_pos'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'grid_distance'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment"># 闪现是否可用: (1,)</span>
+  <span class="token comment"># 这个mask不是模型的输入，只是一同存储到obs中，需要手动分离出来</span>
+  obs<span class="token punctuation">[</span><span class="token string">'legal_act'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>astype<span class="token punctuation">(</span>np<span class="token punctuation">.</span>float32<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="奖励函数设计"><a class="markdownIt-Anchor" href="#奖励函数设计"></a> 奖励函数设计</h3>
+<p>这个奖励函数我们大部分是直接沿用了学习期的设计，从<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/0e620a6d17a92daeb77ed27a2a30cd25672f3e13/secret_realm/code/diy/feature/definition.py#L116"><code>definition.py</code></a>中就能看到我们设计的奖励函数，相应的配置文件位于<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/blob/master/secret_realm/code/diy/config.py">config.py的Args</a>中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">r <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token comment"># 1. 重复步骤惩罚，当一个位置重复走过2次以上</span>
+ratio <span class="token operator">=</span> self<span class="token punctuation">.</span>total_timestep <span class="token operator">*</span> args<span class="token punctuation">.</span>num_envs <span class="token operator">/</span> args<span class="token punctuation">.</span>total_timesteps
+<span class="token keyword">if</span> ratio <span class="token operator">&lt;</span> <span class="token number">0.5</span><span class="token punctuation">:</span>  <span class="token comment"># 前一半的时候考虑当前位置的惩罚</span>
+  r <span class="token operator">-=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>obs<span class="token punctuation">[</span><span class="token string">'memory_map'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">,</span><span class="token number">25</span><span class="token punctuation">]</span> <span class="token operator">-</span> args<span class="token punctuation">.</span>repeat_step_thre<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token comment"># assert obs['memory_map'][25,25] > 0  # won't be > 0</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>  <span class="token comment"># 后一半的时候考虑周围5x5位置的加权惩罚</span>
+  r <span class="token operator">-=</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>repeat_punish <span class="token operator">*</span> np<span class="token punctuation">.</span>maximum<span class="token punctuation">(</span>
+    obs<span class="token punctuation">[</span><span class="token string">'memory_map'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">23</span><span class="token punctuation">:</span><span class="token number">28</span><span class="token punctuation">,</span><span class="token number">23</span><span class="token punctuation">:</span><span class="token number">28</span><span class="token punctuation">]</span><span class="token operator">-</span>args<span class="token punctuation">.</span>repeat_step_thre<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># 2. 到目标点（这是设计的最大问题，学习别人的奖励函数时，发现可以当宝箱没有收集完时不给这个奖励）</span>
+<span class="token comment"># （这样直接设计奖励，可能让模型丢失部分宝箱）</span>
+<span class="token keyword">if</span> terminated<span class="token punctuation">:</span>
+  r <span class="token operator">+=</span> <span class="token number">150</span>
+  <span class="token comment"># 对未捡到的宝箱做加权惩罚，加权系数与历史中未捡到该宝箱次数成正比</span>
+  r <span class="token operator">-=</span> <span class="token punctuation">(</span>obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span> <span class="token operator">*</span> self<span class="token punctuation">.</span>treasure_reward_coef<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span>
+  <span class="token comment"># 对未捡到的buff进行惩罚</span>
+  r <span class="token operator">-=</span> obs<span class="token punctuation">[</span><span class="token string">'buff_flag'</span><span class="token punctuation">]</span> <span class="token operator">*</span> args<span class="token punctuation">.</span>forget_buff_punish
+  self<span class="token punctuation">.</span>treasure_miss_cnt <span class="token operator">+=</span> obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>astype<span class="token punctuation">(</span>np<span class="token punctuation">.</span>int32<span class="token punctuation">)</span>
+<span class="token comment"># 移动系数计算，如果是使用闪现则会用更大的系数</span>
+dist_reward_coef <span class="token operator">=</span> args<span class="token punctuation">.</span>flash_dist_reward_coef <span class="token keyword">if</span> self<span class="token punctuation">.</span>use_flash <span class="token keyword">else</span> args<span class="token punctuation">.</span>dist_reward_coef
+<span class="token comment"># 到达终点的相对距离</span>
+delta_end_distance <span class="token operator">=</span> self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'end_pos'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'grid_distance'</span><span class="token punctuation">]</span> <span class="token operator">-</span> obs<span class="token punctuation">[</span><span class="token string">'end_pos'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'grid_distance'</span><span class="token punctuation">]</span>
+r <span class="token operator">+=</span> delta_end_distance <span class="token operator">*</span> dist_reward_coef
+<span class="token comment"># 3. 到宝箱</span>
+<span class="token keyword">if</span> <span class="token keyword">not</span> terminated <span class="token keyword">and</span> score <span class="token operator">==</span> <span class="token number">100</span><span class="token punctuation">:</span>  <span class="token comment"># 获得宝箱的奖励</span>
+  r <span class="token operator">+=</span> <span class="token number">100</span> <span class="token operator">*</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>treasure_reward_coef <span class="token operator">*</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span> <span class="token operator">^</span> obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># 与最近的宝箱距离</span>
+  dist_treasure <span class="token operator">=</span> np<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'treasure_grid_distance'</span><span class="token punctuation">]</span> <span class="token operator">-</span>
+                          self<span class="token punctuation">.</span>obs<span class="token punctuation">[</span><span class="token string">'treasure_grid_distance'</span><span class="token punctuation">]</span>
+                        <span class="token punctuation">)</span><span class="token punctuation">[</span>self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'treasure_flags'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  r <span class="token operator">+=</span> dist_treasure <span class="token operator">*</span> dist_reward_coef
+<span class="token comment"># 4. 撞墙惩罚</span>
+<span class="token keyword">if</span> hit_wall<span class="token punctuation">:</span>
+  r <span class="token operator">-=</span> args<span class="token punctuation">.</span>flash_hit_wall_punish <span class="token keyword">if</span> self<span class="token punctuation">.</span>use_flash <span class="token keyword">else</span> args<span class="token punctuation">.</span>walk_hit_wall_punish
+<span class="token comment"># 5. buff奖励</span>
+<span class="token keyword">if</span> self<span class="token punctuation">.</span>_obs<span class="token punctuation">[</span><span class="token string">'buff_flag'</span><span class="token punctuation">]</span> <span class="token operator">-</span> obs<span class="token punctuation">[</span><span class="token string">'buff_flag'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+  r <span class="token operator">+=</span> args<span class="token punctuation">.</span>get_buff_reward
+<span class="token comment"># 6. 每步的惩罚，如果是初次训练则后半程才加入，如果是接着训练则一直存在</span>
+<span class="token keyword">if</span> ratio <span class="token operator">></span> <span class="token number">0.5</span> <span class="token keyword">or</span> args<span class="token punctuation">.</span>load_model_id <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+  r <span class="token operator">-=</span> args<span class="token punctuation">.</span>each_step_punish
+<span class="token comment"># 7. 全局奖励加权系数（由于奖励太大，全部缩小的0.1倍）</span>
+r <span class="token operator">*=</span> args<span class="token punctuation">.</span>reward_global_coef<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>我们的版本迭代日志主要为 <code>v0.4.3 -&gt; v1.0 -&gt; v1.1 -&gt; v1.2 -&gt; v1.2.x</code>，最后提交的是v1.2，日志文件可以在<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu2024_taichu/tree/master/secret_realm/code#2024813">code/readme.md</a>中找到。</p>
+<h3 id="阶段总结"><a class="markdownIt-Anchor" href="#阶段总结"></a> 阶段总结</h3>
+<p>这次放太多注意力在理解分布式框架和实现PPO算法上了，中间PPO算法实现遇到了很多bug，最后也是没有对奖励再进行微调，没有在所有宝箱位置上对模型进行测试，才导致出现漏掉宝箱的问题，下次要将注意力更多集中在<strong>环境调试，网络设计，参数微调，奖励设计</strong>上。</p>
+<p>这次学习了开悟的分布式框架原理也是一大收获，后面估计我自己也可以照样子设计一个，用于之前毕设未完成的真正强化学习AI训练（当然现在硬件还是不够）。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/coding/" class="category-chain-item">coding</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/coding/%E6%AF%94%E8%B5%9B/" class="category-chain-item">比赛</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2024开悟智能体比赛（海选赛）</div>
+      <div>https://wty-yy.github.io/posts/33143/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>wty</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/10130/" title="F28069M开发板笔记">
+                        <span class="hidden-mobile">F28069M开发板笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.16/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"7JWUOvcOubbTCSI8jHpuVSJ0-gzGzoHsz","appKey":"98rYU3iGXuuKPVyUjNYHGpr9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br> Enjoy sharing! <br> <span id="runtime_span"></span> <script type="text/javascript">function show_runtime(){window.setTimeout("show_runtime()",1000);X=new Date("3/19/2021 00:00:00");Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);runtime_span.innerHTML="小站已运行"+A+"天"+B+"小时"+C+"分"+D+"秒"}show_runtime();</script> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.26.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//fastly.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
