@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://wty-yy.github.io/figures/tools/docker%E5%8F%AF%E8%A7%86%E5%8C%96%E9%92%9F%E8%A1%A8.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/tools/dockerhub%E6%9F%A5%E7%9C%8B%E4%B8%8A%E4%BC%A0%E7%BB%93%E6%9E%9C.png">
 <meta property="article:published_time" content="2024-06-17T02:10:13.000Z">
-<meta property="article:modified_time" content="2024-11-03T12:32:28.787Z">
+<meta property="article:modified_time" content="2024-12-02T04:00:36.271Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.github.io/figures/tools/docker_desktop.png">
@@ -408,6 +408,7 @@
 </div>
 <p><strong>2024.6.6. 国内的 Docker Hub 镜像加速器相继停止服务，可选择为 Docker daemon 配置代理或自建镜像加速服务。</strong> 该消息来自<a target="_blank" rel="noopener" href="https://gist.github.com/y0ngb1n/7e8f16af3242c7815e7ca2f0833d3ea6?permalink_comment_id=5082662">GitHub - Docker Hub 镜像加速器</a>，这个页面中介绍了使用 Docker 镜像加速器的方法，里面可以找到大家分享的最新镜像网站。</p>
 <p>Docker daemon 可以认为是执行 Docker 命令的运行在后台的进程，可以通过 <code>sudo systemctl daemon-reload</code> 进行重启。</p>
+<p>重启整个docker服务使用命令 <code>sudo systemctl restart docker</code>（配置完成代理后需要重启docker）</p>
 <p>因此如果我们要配置代理是对 Docker daemon 进行配置，参考官方文档 <a target="_blank" rel="noopener" href="https://docs.docker.com/config/daemon/systemd/">Docker - Configure the daemon with systemd</a>，向 <code>sudo vim /etc/docker/daemon.json</code> 中加入如下配置</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
   <span class="token property">"proxies"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
