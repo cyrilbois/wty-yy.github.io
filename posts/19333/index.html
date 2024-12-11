@@ -23,17 +23,13 @@
 <meta property="og:site_name" content="wty&#39;s blog">
 <meta property="og:description" content="ROS 参考官方教程进行学习ROS&#x2F;Tutorials，先从ROS1开始学习而不是ROS2，是因为很多项目还是基于ROS1的，而且ROS1&#x2F;2很多地方并不兼容，例如ROS2就没有catkin编译了，而且很多包名称都不相同，因此还是从ROS1开始学习吧！  什么是ROS 从官网上的ROS&#x2F;Introduction中可以看出，ROS是一个用于管理机器人控制的操作系统（既可以从底层控制每一个电机，也可">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_rosgraph.png">
-<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_draw_circle.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_plot_config.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_rqt_plot.png">
-<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_7_double_turtles.png">
-<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_7_change_background.png">
 <meta property="article:published_time" content="2024-12-09T03:11:26.000Z">
-<meta property="article:modified_time" content="2024-12-11T08:49:09.690Z">
+<meta property="article:modified_time" content="2024-12-11T14:02:35.555Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_rosgraph.png">
+<meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_plot_config.png">
   
   
   
@@ -308,7 +304,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.7k 字
+          4.4k 字
         
       </span>
     
@@ -319,7 +315,7 @@
         
         
         
-          31 分钟
+          37 分钟
         
       </span>
     
@@ -550,7 +546,7 @@ cmake <span class="token punctuation">..</span>/src <span class="token parameter
 <span class="token function">apt-get</span> <span class="token function">install</span> ros-noetic-rqt-common-plugins
 
 rosrun rqt_graph rqt_graph  <span class="token comment"># 可视化节点关系图</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-<p><img src="/figures/robotics/ros/ros1_1_5_rosgraph.png" srcset="/img/loading.gif" lazyload alt="rqt节点关系图" /><br />
+<p><img src=/figures/robotics/ros/ros1_1_5_rosgraph.png width=50%></img><br />
 每个圆圈就是一个节点，中间连线表示消息的message传输方向，连线上的名称为topic，在这里就只有一个topic: <code>/turtle1/cmd_vel</code>，<code>/teleop_turtle</code>向其publish，<code>/yy_turtle</code>从其subscrib</p>
 <h4 id="rostopic指令"><a class="markdownIt-Anchor" href="#rostopic指令"></a> rostopic指令</h4>
 <p>通过<code>rostopic</code>相关函数可以获取topic的信息：</p>
@@ -575,7 +571,7 @@ rosrun rqt_graph rqt_graph  <span class="token comment"># 可视化节点关系�
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rostopic pub <span class="token parameter variable">-r</span> <span class="token number">1</span> /turtle1/cmd_vel geometry_msgs/Twist <span class="token string">'[2, 0, 0]'</span> <span class="token string">'[0, 0, 2]'</span>
 rostopic pub <span class="token parameter variable">-r</span> <span class="token number">1</span> /turtle1/cmd_vel geometry_msgs/Twist <span class="token string">'[3, 0, 0]'</span> <span class="token string">'[0, 0, -2]'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
 <p>可以画出下图的效果了<br />
-<img src="/figures/robotics/ros/ros1_1_5_draw_circle.png" srcset="/img/loading.gif" lazyload alt="画圈圈" /></p>
+<img src=/figures/robotics/ros/ros1_1_5_draw_circle.png width=50%></img></p>
 <p>通过<code>rostopic hz /turtle1/color_sensor</code>来确定你的节点以多少hz发送画面渲染消息（我是125hz）</p>
 <p>通过<code>rostopic echo /turtle1/pose</code>可以查看这个topice下的数据有哪些，看到有如下这些信息</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">x: <span class="token number">3.218510150909424</span>
@@ -637,7 +633,7 @@ Args: x y theta name  <span class="token comment"># 通讯数据格式: 初始�
 <p>这样就可以同时控制两只龟龟了</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rostopic pub <span class="token parameter variable">-r</span> <span class="token number">1</span> /turtle1/cmd_vel geometry_msgs/Twist <span class="token string">'[3, 0, 0]'</span> <span class="token string">'[0, 0, 2]'</span>
 rostopic pub <span class="token parameter variable">-r</span> <span class="token number">1</span> /turtle2/cmd_vel geometry_msgs/Twist <span class="token string">'[3, 0, 0]'</span> <span class="token string">'[0, 0, -2]'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
-<p><img src="/figures/robotics/ros/ros1_1_7_double_turtles.png" srcset="/img/loading.gif" lazyload alt="double turtles" /></p>
+<p><img src=/figures/robotics/ros/ros1_1_7_double_turtles.png width=50%></img></p>
 <h4 id="rosparam参数服务器"><a class="markdownIt-Anchor" href="#rosparam参数服务器"></a> rosparam（参数服务器）</h4>
 <p><a target="_blank" rel="noopener" href="https://wiki.ros.org/Parameter%20Server">参考官方介绍</a>，这个可以看作一个全局变量存储器，可以用yaml格式存储：整型（integer）、浮点（float）、布尔（boolean）、字典（dictionaries）和列表（list）等数据类型（咋感觉就是Python的数据类型😂）</p>
 <p>常用的命令如下：</p>
@@ -659,7 +655,55 @@ rostopic pub <span class="token parameter variable">-r</span> <span class="token
 <li><code>rosparam set /turtlesim/background_r 150</code>修改当前乌龟的背景色中的红色设成<code>150</code></li>
 <li><code>rosservice call /reset</code>重置下小乌龟环境，看到小乌龟背景板变色了！</li>
 </ul>
-<p><img src="/figures/robotics/ros/ros1_1_7_change_background.png" srcset="/img/loading.gif" lazyload alt="改变背景色" /></p>
+<p><img src=/figures/robotics/ros/ros1_1_7_change_background.png width=50%></img></p>
+<h3 id="18-日志debug和roslaunch"><a class="markdownIt-Anchor" href="#18-日志debug和roslaunch"></a> 1.8 日志DEBUG和roslaunch</h3>
+<h4 id="日志debug"><a class="markdownIt-Anchor" href="#日志debug"></a> 日志DEBUG</h4>
+<p>安装rqt相关依赖包:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> ros-noetic-rqt ros-noetic-rqt-common-plugins<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>先启动日志记录器<code>rosrun rqt_console rqt_console</code>，日志筛选器<code>rosrun rqt_logger_level rqt_logger_level</code>，这样就可以实时截取日志消息了。</p>
+<p>我们启动一个小乌龟node：<code>rosrun turtlesim turtlesim_node</code>，向其中添加一个小乌龟<code>rosservice call /spawn 1 5 0 &quot;&quot;</code>，在rqt_console上就可以看到显示的Info消息了。</p>
+<p>我们再让小乌龟去撞墙：<code>rostopic pub /turtle1/cmd_vel geometry_msgs/Twist -r 1 &quot;[1,0,0]&quot; &quot;[0,0,0]&quot;</code>，等到小乌龟撞到墙时候，就可以从rqt_console中看到很多Warn消息了。</p>
+<p>我们再看到刚才打开的<code>rqt_logger_level</code>，这个可以对node message按照日志等级进行筛选，如果我们将Nodes选为<code>/turtlesim</code>，Loggers选为<code>ros.turtlesim</code>，Levels选为<code>Debug</code>，我们就可以在rqt_console里面开到实时的乌龟位置了，日志的优先级从高到低分别为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Fatal （致命）
+Error （错误）
+Warn  （警告）
+Info  （信息）
+Debug （调试）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>当将level设置为某一个优先级时，高于其优先级的logger就会被输出出来。</p>
+<h4 id="roslaunch启动两个同步小乌龟"><a class="markdownIt-Anchor" href="#roslaunch启动两个同步小乌龟"></a> roslaunch启动两个同步小乌龟</h4>
+<p>通过写<code>*.launch</code>文件我们可以对相同程序启动多个的node（通过不同namespace区分它们），还是回到上次我们创建的<code>tutorials</code>项目中去<code>roscd tutorials</code>，如果把他删了，或者忘记了<code>source</code>那么重新创建一下吧，<a href="/posts/19333/#%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%A1%B9%E7%9B%AE">参考 - 创建空项目</a>。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">roscd tutorials
+<span class="token function">mkdir</span> launch <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> launch
+<span class="token function">vim</span> turtlemimic.launch  <span class="token comment"># 或者用vscode打开</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>把下面这段代码贴进去，分别是通过不同namespace启动相同程序<code>rosrun turtlesim turtlesim_node</code>两次（所有的<code>param, topic, node</code>名称前面，都会先加上<code>turtlesim1</code>或<code>turtlesim2</code>的命名）</p>
+<p>而下面的<code>rosrun turtlesim mimic</code>就是将<code>turtlesim1</code>收到的消息转发给<code>turtlesim2</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- launch tag开始 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>
+
+  <span class="token comment">&lt;!-- 创建第一个小乌龟窗口, 通过对所有变量前加上命名空间"turtlesim1"
+       和后面一个小乌龟窗口进行区分 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>group</span> <span class="token attr-name">ns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sim<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim_node<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>group</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>group</span> <span class="token attr-name">ns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sim<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim_node<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>group</span><span class="token punctuation">></span></span>
+
+  <span class="token comment">&lt;!-- 从turtlesim软件包中启动其二个名为mimic的程序,
+       通过这个程序转发turtlesim1的消息到turtlesim2中去 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mimic<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mimic<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>remap</span> <span class="token attr-name">from</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim1/turtle1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>remap</span> <span class="token attr-name">from</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>output<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>turtlesim2/turtle1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>保存文件，执行<code>roslaunch tutorials turtlemimic.launch</code>就可以看到启动的两个乌龟窗口了，再对<code>turtlesim1</code>发送指令就可以同时控制两个乌龟了<code>rostopic pub /turtlesim1/turtle1/cmd_vel geometry_msgs/Twist -r 1 '[2,0,0]' '[0,0,4]'</code></p>
+<blockquote>
+<p>一个问题就是为什么这里再对<code>turtlesim2</code>发送消息每一步走的距离就很短？</p>
+</blockquote>
+<p>终端输入<code>rqt</code>直接打开窗口，在上面选择<code>Plugins &gt; Introspection &gt; Node Graph</code>就可以打开一个节点图（当然直接输入<code>rqt_graph</code>也可以开），选择<code>Nodes/Topics (active)</code>就可以看到下图的效果：<br />
+<img src=/figures/robotics/ros/ros1_1_8_mimic_node_graph.png width=100%></img></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
