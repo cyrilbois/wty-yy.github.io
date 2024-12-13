@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_plot_config.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_rqt_plot.png">
 <meta property="article:published_time" content="2024-12-09T03:11:26.000Z">
-<meta property="article:modified_time" content="2024-12-11T14:02:35.555Z">
+<meta property="article:modified_time" content="2024-12-13T14:08:48.527Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/ros/ros1_1_5_plot_config.png">
@@ -304,7 +304,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.4k 字
+          5.2k 字
         
       </span>
     
@@ -315,7 +315,7 @@
         
         
         
-          37 分钟
+          44 分钟
         
       </span>
     
@@ -704,6 +704,155 @@ Debug （调试）<span aria-hidden="true" class="line-numbers-rows"><span></spa
 </blockquote>
 <p>终端输入<code>rqt</code>直接打开窗口，在上面选择<code>Plugins &gt; Introspection &gt; Node Graph</code>就可以打开一个节点图（当然直接输入<code>rqt_graph</code>也可以开），选择<code>Nodes/Topics (active)</code>就可以看到下图的效果：<br />
 <img src=/figures/robotics/ros/ros1_1_8_mimic_node_graph.png width=100%></img></p>
+<h3 id="19-msg和srv介绍"><a class="markdownIt-Anchor" href="#19-msg和srv介绍"></a> 1.9 msg和srv介绍</h3>
+<ul>
+<li>msg（就是发送到topic的通讯文件）：文本文件，用多个变量组成的数据格式来描述一个消息</li>
+<li>src（包含service通讯信息的文件）：描述一个service传输的数据，由request和response两个部分组成，分别为接受与发送的数据格式</li>
+</ul>
+<p>一般的项目中，我们将msg文件放在<code>msg/</code>文件夹下，srv文件放在<code>srv/</code>文件夹下。</p>
+<h4 id="msg"><a class="markdownIt-Anchor" href="#msg"></a> msg</h4>
+<p>就是简单的文本文件，每行由<code>类型 名称</code>组成，类型包含：</p>
+<ul>
+<li><code>int8, int16, int32, int64, uint[8|16|32|64]</code></li>
+<li><code>float32, float64</code></li>
+<li><code>string</code></li>
+<li><code>time, duration</code></li>
+<li>其他的msg文件（可嵌套）</li>
+<li>变长数组, 固定长度数组</li>
+</ul>
+<p>还有一个特殊的类型<code>Header</code>，通常我们会在msg定义的第一行写上，他会被自动解析为<code>std_msgs/msg/Header.msg</code>中的内容：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-msg" data-language="msg"><code class="language-msg">uint32 seq
+time stamp
+string frame_id<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>例子，我们编辑之前<code>tutorials</code>的项目，创建<code>/catkin/src/tutorials/msg/test.msg</code>如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-msg" data-language="msg"><code class="language-msg">Header header
+string s
+float32[2] abc
+int32 i<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><code>source /catkin/devel/setup.sh</code>执行<code>rosmsg show tutorials/test</code>就可以看到我们写的msg格式如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-msg" data-language="msg"><code class="language-msg">std_msgs&#x2F;Header header
+  uint32 seq
+  time stamp
+  string frame_id
+string s
+float32[2] abc
+int32 i<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>想要在代码中使用到这个<code>test.msg</code>数据格式，需要在编译时支持转化，修改如下文件：</p>
+<ul>
+<li>修改<code>package.xml</code>：解开以下两行的注释（分别用于生成消息和运行时接收消息）  <figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+</li>
+<li>修改<code>CMakeLists.xml</code>（<code>src/tutorials</code>下的）：
+<ol>
+<li><code>find_package(...)</code>中加入<code>message_generation</code></li>
+<li><code>catkini_package(...)</code>中找到<code>CATKIN_DEPENDS</code>后加入<code>message_runtime</code>（这个是包依赖关系，如果这个包被其他包调用了，那么会自动导入message_runtime包）</li>
+<li>找到<code>add_message_files(...)</code>，将其改为</li>
+</ol>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">add_message_files</span><span class="token punctuation">(</span>
+  FILES
+  test.msg  <span class="token comment"># 你的msg文件名</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<ol start="4">
+<li>找到<code>generate_messages(...)</code>解开注释，如下</li>
+</ol>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">generate_messages</span><span class="token punctuation">(</span>
+  DEPENDENCIES
+  std_msgs
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+</li>
+</ul>
+<p>OK，让我们重新编译一下<code>cd /catkin &amp;&amp; catkin_make</code>，编译完成后就可以找到msg转码文件了：</p>
+<ul>
+<li>C++：<code>/catkin/devel/include/tutorials/test.h</code></li>
+<li>Python：<code>/catkin/devel/lib/python3/dist-packages/tutorials/msg/_test.py</code><br />
+这样我们的后续项目代码就可以解包和发包了</li>
+</ul>
+<h4 id="srv"><a class="markdownIt-Anchor" href="#srv"></a> srv</h4>
+<p>我们创建文件夹<code>roscd tutorials &amp;&amp; mkdir srv</code>，直接从另一个包里面复制现有的srv：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">roscd tutorials/src/
+roscp rospy_tutorials AddTwoInts.srv test_srv.srv
+
+<span class="token function">cat</span> test_srv.srv
+<span class="token operator">></span> int64 a  <span class="token comment"># 发送的数据格式</span>
+<span class="token operator">></span> int64 b
+<span class="token operator">></span> ---
+<span class="token operator">></span> int64 <span class="token function">sum</span>  <span class="token comment"># 接受的数据格式</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>现在可以用<code>rossrv show tutorials/test_srv.srv</code>来看看是否识别到了我们的service文件，可以看到输出和<code>test_srv.srv</code>文件内容一致。</p>
+<p>下面类似msg的流程，让代码支持<code>test_srv.srv</code>：</p>
+<ul>
+<li>修改<code>package.xml</code>：解开以下两行的注释（和msg相同）  <figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+</li>
+<li>修改<code>CMakeLists.xml</code>（<code>src/tutorials</code>下的）：
+<ol>
+<li><code>find_package(...)</code>中加入<code>message_generation</code>（和msg相同）</li>
+<li>找到<code>add_service_files(...)</code>，将其改为</li>
+</ol>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">add_service_files</span><span class="token punctuation">(</span>
+  FILES
+  test_srv.srv  <span class="token comment"># 你的srv文件名，注意不要和*.msg重名!!!</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<ol start="4">
+<li>找到<code>generate_messages(...)</code>解开注释，如下</li>
+</ol>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">generate_messages</span><span class="token punctuation">(</span>
+  DEPENDENCIES
+  std_msgs
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+</li>
+</ul>
+<p>OK，类似地让我们重新编译一下<code>cd /catkin &amp;&amp; catkin_make</code>，编译完成后就可以找到srv转码文件了：</p>
+<ul>
+<li>C++：<code>/catkin/devel/include/tutorials/[test_srv.h, test_srvRequest.h, test_srvResponse.h]</code></li>
+<li>Python：<code>/catkin/devel/lib/python3/dist-packages/tutorials/srv/_test_srv.py</code><br />
+这样我们的后续项目代码就可以使用srv接受和发送消息了</li>
+</ul>
+<h3 id="110-publisher和subscriber"><a class="markdownIt-Anchor" href="#110-publisher和subscriber"></a> 1.10 publisher和subscriber</h3>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/env python</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">import</span> logging
+<span class="token keyword">from</span> std_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> String
+<span class="token keyword">import</span> os
+os<span class="token punctuation">.</span>environ<span class="token punctuation">[</span><span class="token string">'ROSCONSOLE_FORMAT'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'[$&#123;severity&#125;] [$&#123;time:%Y-%m-%d %H:%M:%S&#125;]: $&#123;message&#125;'</span>
+
+<span class="token keyword">def</span> <span class="token function">talker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  count <span class="token operator">=</span> <span class="token number">0</span>
+  pub <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Publisher<span class="token punctuation">(</span><span class="token string">'chatter'</span><span class="token punctuation">,</span> String<span class="token punctuation">,</span> queue_size<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+  rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'talker'</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+  rate <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Rate<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># 10hz</span>
+  <span class="token keyword">while</span> <span class="token keyword">not</span> rospy<span class="token punctuation">.</span>is_shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    hello_str <span class="token operator">=</span> <span class="token string">"hello world %s -- "</span> <span class="token operator">%</span> rospy<span class="token punctuation">.</span>get_time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    hello_str <span class="token operator">+=</span> <span class="token builtin">str</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+    count <span class="token operator">+=</span> <span class="token number">1</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span>hello_str<span class="token punctuation">)</span>
+    pub<span class="token punctuation">.</span>publish<span class="token punctuation">(</span>hello_str<span class="token punctuation">)</span>
+    rate<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+  <span class="token keyword">try</span><span class="token punctuation">:</span>
+    talker<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">except</span> rospy<span class="token punctuation">.</span>ROSPROGInterruptException<span class="token punctuation">:</span>
+    <span class="token keyword">pass</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/env python</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> std_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> String
+
+<span class="token keyword">def</span> <span class="token function">callback</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span>rospy<span class="token punctuation">.</span>get_caller_id<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'I heard %s'</span><span class="token punctuation">,</span> data<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">listener</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'listener'</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    rospy<span class="token punctuation">.</span>Subscriber<span class="token punctuation">(</span><span class="token string">'chatter'</span><span class="token punctuation">,</span> String<span class="token punctuation">,</span> callback<span class="token punctuation">)</span>
+
+    <span class="token comment"># spin() simply keeps python from exiting until this node is stopped</span>
+    rospy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    listener<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
