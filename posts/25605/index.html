@@ -1,0 +1,1310 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://s4.ax1x.com/2021/12/22/TQjIaQ.png">
+  <link rel="icon" href="https://s4.ax1x.com/2021/12/22/TQjIaQ.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="wty">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录下对Nvidia机载电脑Jetson AGX Orin的配置过程：  使用SDKManager docker镜像刷JetPack高版本(5.x版本能直接识别带有IMU的设备, 而6.x版本需要使用uvc后端且无法识别带IMU的设备)   SDKManager刷机  参考闫金钢的Blog - Nvidia Jetson AGX Orin系统刷写  这里需要一条DC 12V的电源线，用来给AGX供">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetson AGX Orin 配置">
+<meta property="og:url" content="https://wty-yy.github.io/posts/25605/index.html">
+<meta property="og:site_name" content="wty&#39;s blog">
+<meta property="og:description" content="记录下对Nvidia机载电脑Jetson AGX Orin的配置过程：  使用SDKManager docker镜像刷JetPack高版本(5.x版本能直接识别带有IMU的设备, 而6.x版本需要使用uvc后端且无法识别带IMU的设备)   SDKManager刷机  参考闫金钢的Blog - Nvidia Jetson AGX Orin系统刷写  这里需要一条DC 12V的电源线，用来给AGX供">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash_real1.jpg">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash_real2.jpg">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_GUI_flash1.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_GUI_flash2.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_GUI_flash3.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash1.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash2.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash3.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash4.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash5.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash6.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_JetPack6.1_UVC_D435i_realsense-viewer.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_D435i_ROS2_view.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_rs_ros_node_python_cv_show.png">
+<meta property="article:published_time" content="2024-12-29T06:47:35.000Z">
+<meta property="article:modified_time" content="2025-01-04T05:22:06.395Z">
+<meta property="article:author" content="wty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/Jetson/AGX_flash_real1.jpg">
+  
+  
+  
+  <title>Jetson AGX Orin 配置 - wty&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.26.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.15.2/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/fold_code.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_3429772_kq6ntj4nzdo.css">
+<link rel="stylesheet" href="//fastly.jsdelivr.net/gh/bynotes/texiao/source/css/toubudaziji.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wty-yy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":"843a38ffdc8864dd30e250b723a1a8ca","google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><script src="/assets/js/DPlayer.min.js"></script></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Home</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/020109/" target="_self">
+                    
+                    <span>杂记</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/18857/" target="_self">
+                    
+                    <span>模板&dotfiles</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/64648/" target="_self">
+                    
+                    <span>常用命令及函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/57899/" target="_self">
+                    
+                    <span>算法总结</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/posts/20023/" target="_self">
+                    
+                    <span>Linux杂记</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://s4.ax1x.com/2021/12/22/TQOxyT.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Jetson AGX Orin 配置"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-29 14:47" pubdate>
+          2024年12月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Jetson AGX Orin 配置</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>记录下对Nvidia机载电脑Jetson AGX Orin的配置过程：</p>
+<ol>
+<li>使用SDKManager docker镜像刷JetPack高版本(5.x版本能直接识别带有IMU的设备, 而6.x版本需要使用uvc后端且无法识别带IMU的设备)</li>
+</ol>
+<h2 id="sdkmanager刷机"><a class="markdownIt-Anchor" href="#sdkmanager刷机"></a> SDKManager刷机</h2>
+<blockquote>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.yanjingang.com/?p=9092">闫金钢的Blog - Nvidia Jetson AGX Orin系统刷写</a></p>
+</blockquote>
+<p>这里需要一条DC 12V的电源线，用来给AGX供电，还需要另一台带有Docker的电脑用来刷机，接线如下所示:</p>
+<table>
+<thead>
+<tr>
+<th>先接上电脑(白线)</th>
+<th>再接上电源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/figures/robotics/Jetson/AGX_flash_real1.jpg" srcset="/img/loading.gif" lazyload alt="img1" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_flash_real2.jpg" srcset="/img/loading.gif" lazyload alt="img1" /></td>
+</tr>
+<tr>
+<td>如果进入了显示界面说明没成功进入刷机，关机后拔掉DC电源线，按住<strong>中间的按钮</strong>，插上中间的电源线，如果屏幕没有亮松开按钮，在电脑上输入<code>lsusb</code>可以看到一行<code>NVIDIA Corp. APX</code>信息，说明成功进入恢复模式。</td>
+<td>如果没有12V DC直流电源线，使用type-C电源线插到DC插口上方的type-C接口上也是可以的。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="可视化窗口安装"><a class="markdownIt-Anchor" href="#可视化窗口安装"></a> 可视化窗口安装</h3>
+<p>进入<a target="_blank" rel="noopener" href="https://developer.nvidia.com/sdk-manager">skd-manager下载界面</a>点击<code>.deb Ubuntu</code>下载并安装在主机上，安装完成后，终端输入<code>sdkmanager</code>即可打开可视化窗口（如果打不开尝试<code>sdkmanager --no-sandbox</code>）</p>
+<table>
+<thead>
+<tr>
+<th>STEP01</th>
+<th>STEP02</th>
+<th>STEP03</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/figures/robotics/Jetson/AGX_GUI_flash1.png" srcset="/img/loading.gif" lazyload alt="img1" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_GUI_flash2.png" srcset="/img/loading.gif" lazyload alt="img2" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_GUI_flash3.png" srcset="/img/loading.gif" lazyload alt="img3" /></td>
+</tr>
+<tr>
+<td>连接上AXG，选择要刷的版本</td>
+<td>选择要安装的程序</td>
+<td>设置用户名与密码开始刷机</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-cli-安装514"><a class="markdownIt-Anchor" href="#docker-cli-安装514"></a> Docker CLI 安装5.1.4</h3>
+<blockquote>
+<p>由于我的host主机是Ubuntu24.02，无法安装5.1.4，必须用镜像，推荐用可视化窗口安装</p>
+</blockquote>
+<p>进入<a target="_blank" rel="noopener" href="https://developer.nvidia.com/sdk-manager">skd-manager下载界面</a>，下载Docker Image Ubuntu18.04 (20.04)也可以安装JetPack 5.x，下载完成后加载镜像，并重新命名为sdkmanager:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> load <span class="token parameter variable">-i</span> sdkmanager-<span class="token punctuation">[</span>版本号<span class="token punctuation">]</span>-Ubuntu_18.04_docker.tar.gz
+<span class="token function">docker</span> tag sdkmanager:<span class="token punctuation">[</span>版本号<span class="token punctuation">]</span>-Ubuntu_18.04 sdkmanager:latest<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/sdk-manager/docker-containers/index.html">SDK Manager - Docker Images</a>中的教程，执行如下命令行就可以安装<code>5.1.4</code>版本的了，如果不是AGX型号，修改<code>--target JETSON_AGX_ORIN_TARGETS</code>为对应的型号（全部支持的型号参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/sdk-manager/system-requirements/index.html#target-device">SDK Manager - target-device</a>）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-it</span> <span class="token parameter variable">--privileged</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">-v</span> /dev/bus/usb:/dev/bus/usb/ <span class="token parameter variable">-v</span> /dev:/dev <span class="token parameter variable">-v</span> /media/<span class="token environment constant">$USER</span>:/media/nvidia:slave <span class="token punctuation">\</span>
+    <span class="token parameter variable">--name</span> JetPack_AGX_Orin_Devkit <span class="token parameter variable">--network</span> <span class="token function">host</span> <span class="token punctuation">\</span>
+    sdkmanager <span class="token parameter variable">--cli</span> <span class="token parameter variable">--action</span> <span class="token function">install</span> --login-type devzone <span class="token punctuation">\</span>
+    <span class="token parameter variable">--product</span> Jetson --target-os Linux <span class="token parameter variable">--version</span> <span class="token number">5.1</span>.4 <span class="token punctuation">\</span>
+    <span class="token parameter variable">--target</span> JETSON_AGX_ORIN_TARGETS <span class="token parameter variable">--flash</span> <span class="token parameter variable">--license</span> accept <span class="token punctuation">\</span>
+    --stay-logged-in <span class="token boolean">true</span> --collect-usage-data <span class="token builtin class-name">enable</span> --exit-on-finish<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这部分主要分为两步，下载部件，烧录Ubuntu系统</p>
+<table>
+<thead>
+<tr>
+<th>自动开始部件下载，选择开始烧录</th>
+<th>设置用户名，密码，其他默认选项</th>
+<th>烧录系统，等待完成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/figures/robotics/Jetson/AGX_flash1.png" srcset="/img/loading.gif" lazyload alt="img1" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_flash2.png" srcset="/img/loading.gif" lazyload alt="img2" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_flash3.png" srcset="/img/loading.gif" lazyload alt="img3" /></td>
+</tr>
+</tbody>
+</table>
+<p>系统烧录完成后显示屏会亮起，输入用户名密码进入Ubuntu系统，连接和电脑的局域网(用热点也行)，进行第二部分安装</p>
+<table>
+<thead>
+<tr>
+<th>选择Install，选择Ethernet cable，IPv4，输入AGX的IP</th>
+<th>开始自动安装第二部分(CUDA等)</th>
+<th>安装完毕!</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/figures/robotics/Jetson/AGX_flash4.png" srcset="/img/loading.gif" lazyload alt="img4" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_flash5.png" srcset="/img/loading.gif" lazyload alt="img5" /></td>
+<td><img src="/figures/robotics/Jetson/AGX_flash6.png" srcset="/img/loading.gif" lazyload alt="img6" /></td>
+</tr>
+</tbody>
+</table>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        保存容器为镜像(不推荐, 镜像高达78.1GB)
+    </div>
+    <div class='spoiler-content'>
+        <p>完成安装后我们可以保存本次下载的容器为镜像</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> commit JetPack_AGX_Orin_Devkit  jetpack_agx_orin_devkit:5.1.4_flash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>下次如果还要刷机直接启动本次镜像即可</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-it</span> <span class="token parameter variable">--rm</span> <span class="token parameter variable">--privileged</span> <span class="token parameter variable">-v</span> /dev/bus/usb:/dev/bus/usb/ jetpack_agx_orin_devkit:5.1.4_flash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<h2 id="realsense-sdk-ros-安装"><a class="markdownIt-Anchor" href="#realsense-sdk-ros-安装"></a> RealSense SDK &amp; ROS 安装</h2>
+<h3 id="jetpack-5x"><a class="markdownIt-Anchor" href="#jetpack-5x"></a> JetPack 5.x</h3>
+<p>直接按照官网的安装方法安装即可: <a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md#4-install-with-debian-packages"><code>4. Install with Debian Packages</code></a><br />
+安装完成后执行<code>realsense-viewer</code>插上摄像头即可看到图像(IMU也可以识别)</p>
+<h3 id="jetpack-6x"><a class="markdownIt-Anchor" href="#jetpack-6x"></a> JetPack 6.x</h3>
+<p>参考realsense官方人员给出的回复(<a target="_blank" rel="noopener" href="https://support.intelrealsense.com/hc/en-us/community/posts/31576776977427-cannot-connect-D455-on-jetson-agx-orin">帖子</a>)，因为包含IMU摄像头为HID设备，需要MIPI驱动，安装这个驱动非常麻烦，参考<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense_mipi_platform_driver">realsense_mipi_platform_driver</a>，基本没有仍和参考文档，根本装不上。</p>
+<p>帖子下方给出了另一个<a target="_blank" rel="noopener" href="https://support.intelrealsense.com/hc/en-us/community/posts/31576776977427/comments/31683171974419">很好的方法</a>，基于<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/librealsense/blob/master/doc/libuvc_installation.md">libuvc_installation.md</a>安装UVC后端的realsense即可，三行即可解决</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> https://github.com/IntelRealSense/librealsense/raw/master/scripts/libuvc_installation.sh
+<span class="token function">chmod</span> +x ./libuvc_installation.sh
+<span class="token comment"># 执行安装前推荐使用全cpu编译cmake效率更高</span>
+gnome-text-editor libuvc_installation.sh
+<span class="token comment"># 找到倒数第3行, make -j2 改为</span>
+<span class="token function">make</span> -j<span class="token variable">$&#123;nproc&#125;</span>
+<span class="token comment"># 保存退出</span>
+<span class="token comment"># 开始安装</span>
+./libuvc_installation.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p><strong>D435i</strong>的IMU读取方法，如果直接打开<code>realsense-viewer</code>还是无法读取IMU数据，一读取就会报错，解决方法就是将相机的Firmware降级到适配你相机的最低版本，参考<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/librealsense/issues/13130#issuecomment-2225099648">D455 Errors when activating imu stream in rs-viewer中的一条回复</a>，方法很简单，先在<a target="_blank" rel="noopener" href="https://dev.intelrealsense.com/docs/firmware-releases-d400">Firmware releases D400</a>找到你相继对应的最低驱动版本，例如我的D435i就是<a target="_blank" rel="noopener" href="https://www.intelrealsense.com/wp-content/uploads/2020/08/D400_Series_Production_FW_5_12_7_100.zip?_ga=2.41355745.2140590151.1735553428-1109731474.1735553428">Version-5_12_7_100</a>，下载解压得到<code>*.bin</code>文件，通过<a target="_blank" rel="noopener" href="https://dev.intelrealsense.com/docs/firmware-update-tool">Firmware Update Tool</a>安装教程(安装librealsense时候就附带安装了)安装</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rs-fw-update  <span class="token comment"># 查看当前连接的相机驱动版本</span>
+rs-fw-update <span class="token parameter variable">-f</span> Signed_Image_UVC_5_12_7_100.bin  <span class="token comment"># 安装驱动</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>安装完成后执行<code>realsense-viewer</code>插上摄像头即可看到图像🥰(还可以看到IMU哦)<br />
+<img src="/figures/robotics/Jetson/AGX_JetPack6.1_UVC_D435i_realsense-viewer.png" srcset="/img/loading.gif" lazyload alt="JetPack 6.1安装UVC后端显示realsense-viewer连接D435i" /></p>
+<h3 id="ros2中启动realsense相机节点"><a class="markdownIt-Anchor" href="#ros2中启动realsense相机节点"></a> ROS2中启动realsense相机节点</h3>
+<p>我安装的ROS2版本为humble，直接按照官方给出的教程<a target="_blank" rel="noopener" href="https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html">Ubuntu-Install-Debs</a>即可轻松安装</p>
+<p>完成ROS2安装后，参考<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense-ros/issues/3075#issuecomment-2082810453">No RealSense devices were found! 中的评论</a>，必须使用源码编译方式安装才能检测到相机，参考官方<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense-ros?tab=readme-ov-file#installation-on-ubuntu">realsense-ros installation-on-ubuntu Step3 Option2</a>安装</p>
+<blockquote>
+<p>安装colcon: <code>sudo apt install python3-colcon-common-extensions</code><br />
+如果执行<code>sudo rosdep init</code>报错，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/wohu1104/article/details/126337787">CSDN - rosdep update — The read operation timed out 解决方法</a> (将所有<code>raw.githubusercontent.com</code>前面都加上代理)</p>
+</blockquote>
+<p>完成全部安装后，以后就不要使用<code>source /opt/ros/humble/setup.sh</code>了，直接使用<code>source /home/$&#123;USER&#125;/ros2_ws/install/setup.sh</code>加载ROS2环境即可</p>
+<blockquote>
+<p>参考<a target="_blank" rel="noopener" href="https://www.reddit.com/r/ROS/comments/mp6fe8/if_i_use_ros2_built_from_source_can_i_use_sudo/">reddit - If I use ros2 built from source, can I use “sudo apt install ros-distro-package” to install packages??</a>发现ROS2貌似不支持将自己编译的包，安装到root环境下，通过<code>ros2_ws/install/setup.sh</code>即可初始化整个ROS2环境+自定义包了</p>
+</blockquote>
+<p>开三个终端分别启动如下指令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ros2 run realsense2_camera realsense2_camera_node  <span class="token comment"># 启动相机节点</span>
+rviz2  <span class="token comment"># 启动rviz2查看camera和DeepCloud</span>
+ros2 topic <span class="token builtin class-name">echo</span> /camera/camera/accel/sample  <span class="token comment"># 查看IMU加速度信息节点</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>在rviz2中加入下图中左侧的窗口(点击Add按钮加入窗口)，选择对应的topic节点，就可以看到效果啦🥳</p>
+<p><img src="/figures/robotics/Jetson/AGX_D435i_ROS2_view.png" srcset="/img/loading.gif" lazyload alt="使用rviz2查看ROS2启动的D435i相机相关节点" /></p>
+<h2 id="使用yolov11识别ros相机节点"><a class="markdownIt-Anchor" href="#使用yolov11识别ros相机节点"></a> 使用YOLOv11识别ROS相机节点</h2>
+<h3 id="在虚拟环境中安装pytorch"><a class="markdownIt-Anchor" href="#在虚拟环境中安装pytorch"></a> 在虚拟环境中安装PyTorch</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/error-with-pytorch-and-torchvision/314612/5?u=993660140">Error with Pytorch and Torchvision</a>中回复的消息，可以使用Python官方的<code>virtualenv</code>创建环境（这个虚拟环境类似Conda，但更轻量），好处在于安装的Pytorch所需的<code>numpy</code>等包不会和root下ROS相关的包冲突，并且由于是从root中Python生成的环境，因此可以使用root下的包（也就是ROS包）</p>
+<blockquote>
+<p>注意环境创建后不能再随便移动位置，因为pip安装绑定了创建时的路径</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> virtualenv
+<span class="token comment"># 进入到环境安装的路径, 例如 mkdir ~/envs &amp;&amp; cd ~/envs</span>
+virtualenv torch_env  <span class="token comment"># 环境名torch_env</span>
+<span class="token builtin class-name">source</span> torch_env/bin/activate  <span class="token comment"># 进入环境, 类似conda activate &lt;env_name></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>直接通过wheel安装已编译好的torch-2.5.0和torhcvision-0.20.0（安装torch-2.6.0可能和这个版本的torchvision不兼容，可以尝试安装下）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> http://jetson.webredirect.org/jp6/cu126/+f/5cf/9ed17e35cb752/torch-2.5.0-cp310-cp310-linux_aarch64.whl<span class="token comment">#sha256=5cf9ed17e35cb7523812aeda9e7d6353c437048c5a6df1dc6617650333049092</span>
+pip <span class="token function">install</span> torch-2.5.0-cp310-cp310-linux_aarch64.whl
+<span class="token function">wget</span> http://jetson.webredirect.org/jp6/cu126/+f/5f9/67f920de3953f/torchvision-0.20.0-cp310-cp310-linux_aarch64.whl<span class="token comment">#sha256=5f967f920de3953f2a39d95154b1feffd5ccc06b4589e51540dc070021a9adb9</span>
+pip <span class="token function">install</span> torchvision-0.20.0-cp310-cp310-linux_aarch64.whl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<blockquote>
+<p>其他jetpack版本可以在<a target="_blank" rel="noopener" href="https://pypi.jetson-ai-lab.dev/">devpi - jetson-ai-lab</a>中找到</p>
+</blockquote>
+<p>安装完成后执行<code>python -c &quot;import torch; import torchvision; print(torch.__version__, torchvision.__version__); print(torch.cuda.is_available());&quot;</code>看看有没有抱错，输出</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">2.5.0 0.20.0
+True<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>就说明安装成功了，由于我们还需要YOLOv11识别所以还需安装</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip <span class="token function">install</span> ultralytics<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<h3 id="编写相机节点launch文件"><a class="markdownIt-Anchor" href="#编写相机节点launch文件"></a> 编写相机节点launch文件</h3>
+<p>我们想控制读取到相机的分辨率，于是想手动写一个ROS2 package的launch文件来一键启动节点及我们的配置文件，还是在<code>~/ros2_ws/src</code>下继续创建:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/ros2_ws/src
+ros2 pkg create my_rs_launch
+<span class="token builtin class-name">cd</span> my_rs_launch
+<span class="token function">mkdir</span> config <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> config
+<span class="token function">vim</span> rs_camera.yaml  <span class="token comment"># 贴入下文信息</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+<span class="token function">mkdir</span> launch <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> launch
+<span class="token function">vim</span> rs_launch.py  <span class="token comment"># 贴入下文信息</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        rs_camera.yaml中贴入
+    </div>
+    <div class='spoiler-content'>
+        <figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># 可选配置 D435i/D435</span>
+<span class="token comment"># 这个信息可以在启动相机节点后执行</span>
+<span class="token comment"># ros2 param describe /camera/camera rgb_camera.color_profile</span>
+<span class="token comment"># 获取到可选 宽x高xFPS 信息如下</span>
+<span class="token comment"># 1280x720x15</span>
+<span class="token comment"># 1280x720x30</span>
+<span class="token comment"># 1280x720x6</span>
+<span class="token comment"># 1920x1080x15</span>
+<span class="token comment"># 1920x1080x30</span>
+<span class="token comment"># 1920x1080x6</span>
+<span class="token comment"># 320x180x30</span>
+<span class="token comment"># 320x180x6</span>
+<span class="token comment"># 320x180x60</span>
+<span class="token comment"># 320x240x30</span>
+<span class="token comment"># 320x240x6</span>
+<span class="token comment"># 320x240x60</span>
+<span class="token comment"># 424x240x15</span>
+<span class="token comment"># 424x240x30</span>
+<span class="token comment"># 424x240x6</span>
+<span class="token comment"># 424x240x60</span>
+<span class="token comment"># 640x360x15</span>
+<span class="token comment"># 640x360x30</span>
+<span class="token comment"># 640x360x6</span>
+<span class="token comment"># 640x360x60</span>
+<span class="token comment"># 640x480x15</span>
+<span class="token comment"># 640x480x30</span>
+<span class="token comment"># 640x480x6</span>
+<span class="token comment"># 640x480x60</span>
+<span class="token comment"># 848x480x15</span>
+<span class="token comment"># 848x480x30</span>
+<span class="token comment"># 848x480x6</span>
+<span class="token comment"># 848x480x60</span>
+<span class="token comment"># 960x540x15</span>
+<span class="token comment"># 960x540x30</span>
+<span class="token comment"># 960x540x6</span>
+<span class="token comment"># 960x540x60</span>
+<span class="token key atrule">rgb_camera</span><span class="token punctuation">:</span>
+  <span class="token key atrule">color_profile</span><span class="token punctuation">:</span> <span class="token string">'640x480x30'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        rs_launch.py中贴入
+    </div>
+    <div class='spoiler-content'>
+        <figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Copyright 2023 Intel Corporation. All Rights Reserved.</span>
+<span class="token comment">#</span>
+<span class="token comment"># Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="token comment"># you may not use this file except in compliance with the License.</span>
+<span class="token comment"># You may obtain a copy of the License at</span>
+<span class="token comment">#</span>
+<span class="token comment">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="token comment">#</span>
+<span class="token comment"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="token comment"># distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="token comment"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="token comment"># See the License for the specific language governing permissions and</span>
+<span class="token comment"># limitations under the License.</span>
+
+<span class="token triple-quoted-string string">"""Launch realsense2_camera node."""</span>
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> yaml
+<span class="token keyword">from</span> launch <span class="token keyword">import</span> LaunchDescription
+<span class="token keyword">import</span> launch_ros<span class="token punctuation">.</span>actions
+<span class="token keyword">from</span> launch<span class="token punctuation">.</span>actions <span class="token keyword">import</span> DeclareLaunchArgument<span class="token punctuation">,</span> OpaqueFunction
+<span class="token keyword">from</span> launch<span class="token punctuation">.</span>substitutions <span class="token keyword">import</span> LaunchConfiguration
+<span class="token keyword">from</span> ament_index_python<span class="token punctuation">.</span>packages <span class="token keyword">import</span> get_package_share_directory
+<span class="token keyword">from</span> pathlib <span class="token keyword">import</span> Path
+
+
+configurable_parameters <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'camera_name'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'camera'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'camera unique name'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'camera_namespace'</span><span class="token punctuation">,</span>             <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'camera'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'namespace for camera'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'serial_no'</span><span class="token punctuation">,</span>                    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'choose device by serial number'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'usb_port_id'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'choose device by usb port id'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'device_type'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'choose device by type'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                        <span class="token comment">#    &#123;'name': 'config_file',                  'default': "''", 'description': 'yaml config file'&#125;,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'config_file'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span>
+                            <span class="token builtin">str</span><span class="token punctuation">(</span>Path<span class="token punctuation">(</span>get_package_share_directory<span class="token punctuation">(</span><span class="token string">'my_rs_launch'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token string">"config/rs_camera.yaml"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'yaml config file'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'json_file_path'</span><span class="token punctuation">,</span>               <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'allows advanced configuration'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'initial_reset'</span><span class="token punctuation">,</span>                <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'accelerate_gpu_with_glsl'</span><span class="token punctuation">,</span>     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"false"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable GPU acceleration with GLSL'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'rosbag_filename'</span><span class="token punctuation">,</span>              <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'A realsense bagfile to run from as a device'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'log_level'</span><span class="token punctuation">,</span>                    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'info'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'debug log level [DEBUG|INFO|WARN|ERROR|FATAL]'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'output'</span><span class="token punctuation">,</span>                       <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'screen'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'pipe node output [screen|log]'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_color'</span><span class="token punctuation">,</span>                 <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'true'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable color stream'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'rgb_camera.color_profile'</span><span class="token punctuation">,</span>     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0,0,0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'color stream profile'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'rgb_camera.color_format'</span><span class="token punctuation">,</span>      <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'RGB8'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'color stream format'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'rgb_camera.enable_auto_exposure'</span><span class="token punctuation">,</span> <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'true'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable/disable auto exposure for color image'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_depth'</span><span class="token punctuation">,</span>                 <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'true'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable depth stream'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_infra'</span><span class="token punctuation">,</span>                 <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable infra0 stream'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_infra1'</span><span class="token punctuation">,</span>                <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable infra1 stream'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_infra2'</span><span class="token punctuation">,</span>                <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable infra2 stream'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.depth_profile'</span><span class="token punctuation">,</span>   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0,0,0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'depth stream profile'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.depth_format'</span><span class="token punctuation">,</span>    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'Z16'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'depth stream format'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.infra_profile'</span><span class="token punctuation">,</span>   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0,0,0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'infra streams (0/1/2) profile'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.infra_format'</span><span class="token punctuation">,</span>    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'RGB8'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'infra0 stream format'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.infra1_format'</span><span class="token punctuation">,</span>   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'Y8'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'infra1 stream format'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.infra2_format'</span><span class="token punctuation">,</span>   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'Y8'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'infra2 stream format'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.exposure'</span><span class="token punctuation">,</span>        <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'8500'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module manual exposure value'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.gain'</span><span class="token punctuation">,</span>            <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'16'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module manual gain value'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.hdr_enabled'</span><span class="token punctuation">,</span>     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module hdr enablement flag. Used for hdr_merge filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.enable_auto_exposure'</span><span class="token punctuation">,</span> <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'true'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable/disable auto exposure for depth image'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.exposure.1'</span><span class="token punctuation">,</span>      <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'7500'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module first exposure value. Used for hdr_merge filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.gain.1'</span><span class="token punctuation">,</span>          <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'16'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module first gain value. Used for hdr_merge filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.exposure.2'</span><span class="token punctuation">,</span>      <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module second exposure value. Used for hdr_merge filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'depth_module.gain.2'</span><span class="token punctuation">,</span>          <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'16'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Depth module second gain value. Used for hdr_merge filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_sync'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"'enable sync mode'"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_rgbd'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"'enable rgbd topic'"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_gyro'</span><span class="token punctuation">,</span>                  <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"'enable gyro stream'"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'enable_accel'</span><span class="token punctuation">,</span>                 <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"'enable accel stream'"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'gyro_fps'</span><span class="token punctuation">,</span>                     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'accel_fps'</span><span class="token punctuation">,</span>                    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'unite_imu_method'</span><span class="token punctuation">,</span>             <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">"0"</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'[0-None, 1-copy, 2-linear_interpolation]'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'clip_distance'</span><span class="token punctuation">,</span>                <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'-2.'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'angular_velocity_cov'</span><span class="token punctuation">,</span>         <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0.01'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'linear_accel_cov'</span><span class="token punctuation">,</span>             <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0.01'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'diagnostics_period'</span><span class="token punctuation">,</span>           <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0.0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Rate of publishing diagnostics. 0=Disabled'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'publish_tf'</span><span class="token punctuation">,</span>                   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'true'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'[bool] enable/disable publishing static &amp; dynamic TF'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'tf_publish_rate'</span><span class="token punctuation">,</span>              <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0.0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'[double] rate in Hz for publishing dynamic TF'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'pointcloud.enable'</span><span class="token punctuation">,</span>            <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'pointcloud.stream_filter'</span><span class="token punctuation">,</span>     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'texture stream for pointcloud'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'pointcloud.stream_index_filter'</span><span class="token punctuation">,</span><span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'0'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'texture stream index for pointcloud'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'pointcloud.ordered_pc'</span><span class="token punctuation">,</span>        <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'pointcloud.allow_no_texture_points'</span><span class="token punctuation">,</span> <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">"''"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'align_depth.enable'</span><span class="token punctuation">,</span>           <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable align depth filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'colorizer.enable'</span><span class="token punctuation">,</span>             <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable colorizer filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'decimation_filter.enable'</span><span class="token punctuation">,</span>     <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable_decimation_filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'spatial_filter.enable'</span><span class="token punctuation">,</span>        <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable_spatial_filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'temporal_filter.enable'</span><span class="token punctuation">,</span>       <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable_temporal_filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'disparity_filter.enable'</span><span class="token punctuation">,</span>      <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable_disparity_filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'hole_filling_filter.enable'</span><span class="token punctuation">,</span>   <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'enable_hole_filling_filter'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'hdr_merge.enable'</span><span class="token punctuation">,</span>             <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'hdr_merge filter enablement flag'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'wait_for_device_timeout'</span><span class="token punctuation">,</span>      <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'-1.'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Timeout for waiting for device to connect (Seconds)'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                           <span class="token punctuation">&#123;</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token string">'reconnect_timeout'</span><span class="token punctuation">,</span>            <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token string">'6.'</span><span class="token punctuation">,</span> <span class="token string">'description'</span><span class="token punctuation">:</span> <span class="token string">'Timeout(seconds) between consequtive reconnection attempts'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                          <span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">declare_configurable_parameters</span><span class="token punctuation">(</span>parameters<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>DeclareLaunchArgument<span class="token punctuation">(</span>param<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> default_value<span class="token operator">=</span>param<span class="token punctuation">[</span><span class="token string">'default'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> description<span class="token operator">=</span>param<span class="token punctuation">[</span><span class="token string">'description'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">for</span> param <span class="token keyword">in</span> parameters<span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">set_configurable_parameters</span><span class="token punctuation">(</span>parameters<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">(</span>param<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> LaunchConfiguration<span class="token punctuation">(</span>param<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">for</span> param <span class="token keyword">in</span> parameters<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">yaml_to_dict</span><span class="token punctuation">(</span>path_to_yaml<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>path_to_yaml<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> yaml<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">,</span> Loader<span class="token operator">=</span>yaml<span class="token punctuation">.</span>SafeLoader<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">launch_setup</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> params<span class="token punctuation">,</span> param_name_suffix<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    _config_file <span class="token operator">=</span> LaunchConfiguration<span class="token punctuation">(</span><span class="token string">'config_file'</span> <span class="token operator">+</span> param_name_suffix<span class="token punctuation">)</span><span class="token punctuation">.</span>perform<span class="token punctuation">(</span>context<span class="token punctuation">)</span>
+    params_from_file <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token keyword">if</span> _config_file <span class="token operator">==</span> <span class="token string">"''"</span> <span class="token keyword">else</span> yaml_to_dict<span class="token punctuation">(</span>_config_file<span class="token punctuation">)</span>
+
+    _output <span class="token operator">=</span> LaunchConfiguration<span class="token punctuation">(</span><span class="token string">'output'</span> <span class="token operator">+</span> param_name_suffix<span class="token punctuation">)</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">'ROS_DISTRO'</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">'foxy'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># Foxy doesn't support output as substitution object (LaunchConfiguration object)</span>
+        <span class="token comment"># but supports it as string, so we fetch the string from this substitution object</span>
+        <span class="token comment"># see related PR that was merged for humble, iron, rolling: https://github.com/ros2/launch/pull/577</span>
+        _output <span class="token operator">=</span> context<span class="token punctuation">.</span>perform_substitution<span class="token punctuation">(</span>_output<span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>
+        launch_ros<span class="token punctuation">.</span>actions<span class="token punctuation">.</span>Node<span class="token punctuation">(</span>
+            package<span class="token operator">=</span><span class="token string">'realsense2_camera'</span><span class="token punctuation">,</span>
+            namespace<span class="token operator">=</span>LaunchConfiguration<span class="token punctuation">(</span><span class="token string">'camera_namespace'</span> <span class="token operator">+</span> param_name_suffix<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            name<span class="token operator">=</span>LaunchConfiguration<span class="token punctuation">(</span><span class="token string">'camera_name'</span> <span class="token operator">+</span> param_name_suffix<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            executable<span class="token operator">=</span><span class="token string">'realsense2_camera_node'</span><span class="token punctuation">,</span>
+            parameters<span class="token operator">=</span><span class="token punctuation">[</span>params<span class="token punctuation">,</span> params_from_file<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            output<span class="token operator">=</span>_output<span class="token punctuation">,</span>
+            arguments<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'--ros-args'</span><span class="token punctuation">,</span> <span class="token string">'--log-level'</span><span class="token punctuation">,</span> LaunchConfiguration<span class="token punctuation">(</span><span class="token string">'log_level'</span> <span class="token operator">+</span> param_name_suffix<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            emulate_tty<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">generate_launch_description</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> LaunchDescription<span class="token punctuation">(</span>declare_configurable_parameters<span class="token punctuation">(</span>configurable_parameters<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">[</span>
+        OpaqueFunction<span class="token punctuation">(</span>function<span class="token operator">=</span>launch_setup<span class="token punctuation">,</span> kwargs <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'params'</span> <span class="token punctuation">:</span> set_configurable_parameters<span class="token punctuation">(</span>configurable_parameters<span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<p>这个文件就是在之前编译<code>realsense2_camera</code>包中提供的启动文件上修改了config_file的默认值（就是创建的<code>config/rs_camera.yaml</code>），源文件位置: <code>~/ros2_ws/install/realsense2_camera/share/realsense2_camera/launch</code>，在<code>rs_camera.yaml</code>中选择你想要的分辨率大小即可，后续Python读入的就是这个分辨率</p>
+<p>完成文件创建后，回到<code>cd ~/ros2_ws</code>，使用相对路径编译（如果报错<code>rm -rf build log install</code>删除之前缓存即可）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/ros2_ws
+colcon build --symlink-install
+<span class="token builtin class-name">source</span> ~/ros2_ws/install/setup.sh
+ros2 launch my_rs_launch rs_launch.py  <span class="token comment"># 启动节点</span>
+<span class="token comment"># 注意日志中的信息, Open profile: stream_type: Color(0), Format: RGB8, Width: 640, Height: 480, FPS: 30</span>
+<span class="token comment"># 应该就和rs_camera.yaml中配置的相同</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="yolov11识别"><a class="markdownIt-Anchor" href="#yolov11识别"></a> YOLOv11识别</h3>
+<p>启动我们自定义的<code>rs_launch.py</code>文件后，随便找个地方创建如下代码并运行（需进入<code>torch_env</code>环境哦）</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        python测试读取分辨率与FPS代码
+    </div>
+    <div class='spoiler-content'>
+        <figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># deepseek-v3生成</span>
+<span class="token keyword">import</span> rclpy
+<span class="token keyword">from</span> rclpy<span class="token punctuation">.</span>node <span class="token keyword">import</span> Node
+<span class="token keyword">from</span> sensor_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Image
+<span class="token keyword">from</span> cv_bridge <span class="token keyword">import</span> CvBridge
+<span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> time
+
+<span class="token keyword">class</span> <span class="token class-name">CameraSubscriber</span><span class="token punctuation">(</span>Node<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token string">'camera_subscriber'</span><span class="token punctuation">)</span>
+    <span class="token comment"># 订阅相机节点的图像话题（例如：/camera/image_raw）</span>
+    self<span class="token punctuation">.</span>subscription <span class="token operator">=</span> self<span class="token punctuation">.</span>create_subscription<span class="token punctuation">(</span>
+      Image<span class="token punctuation">,</span>
+      <span class="token string">'/camera/camera/color/image_raw'</span><span class="token punctuation">,</span>
+      self<span class="token punctuation">.</span>image_callback<span class="token punctuation">,</span>
+      <span class="token number">10</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>subscription  <span class="token comment"># 防止未使用警告</span>
+    self<span class="token punctuation">.</span>bridge <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>last_receive_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">,</span> self<span class="token punctuation">.</span>count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+
+  <span class="token keyword">def</span> <span class="token function">image_callback</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+      <span class="token comment"># 将 ROS 2 图像消息转换为 OpenCV 格式</span>
+      cv_image <span class="token operator">=</span> self<span class="token punctuation">.</span>bridge<span class="token punctuation">.</span>imgmsg_to_cv2<span class="token punctuation">(</span>msg<span class="token punctuation">,</span> <span class="token string">'bgr8'</span><span class="token punctuation">)</span>
+      <span class="token comment"># 显示图像</span>
+      cv2<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span><span class="token string">"Camera Image"</span><span class="token punctuation">,</span> cv_image<span class="token punctuation">)</span>
+      cv2<span class="token punctuation">.</span>waitKey<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+      fps <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> self<span class="token punctuation">.</span>last_receive_time<span class="token punctuation">)</span>
+      self<span class="token punctuation">.</span>count <span class="token operator">+=</span> <span class="token number">1</span>
+      self<span class="token punctuation">.</span>avg_fps <span class="token operator">+=</span> <span class="token punctuation">(</span>fps <span class="token operator">-</span> self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">)</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>count
+      <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"img size=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>cv_image<span class="token punctuation">.</span>shape<span class="token punctuation">&#125;</span></span><span class="token string">, FPS=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>fps<span class="token punctuation">:</span><span class="token format-spec">.5f</span><span class="token punctuation">&#125;</span></span><span class="token string">, AVG_FPS=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">:</span><span class="token format-spec">.5f</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+      self<span class="token punctuation">.</span>last_receive_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+      self<span class="token punctuation">.</span>get_logger<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Failed to convert image: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>e<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span>args<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  rclpy<span class="token punctuation">.</span>init<span class="token punctuation">(</span>args<span class="token operator">=</span>args<span class="token punctuation">)</span>
+  camera_subscriber <span class="token operator">=</span> CameraSubscriber<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  rclpy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span>camera_subscriber<span class="token punctuation">)</span>
+  camera_subscriber<span class="token punctuation">.</span>destroy_node<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  rclpy<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  cv2<span class="token punctuation">.</span>destroyAllWindows<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+  main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<p><img src="/figures/robotics/Jetson/AGX_rs_ros_node_python_cv_show.png" srcset="/img/loading.gif" lazyload alt="运行效果图，可以看到实时画面与FPS，调整rs_camera.yaml中的分辨率，Python获取的同时会变，但是FPS貌似只在40以下" /></p>
+<p>YOLOv11预测代码只需对上述代码小修即可（如果模型下载太慢，建议用浏览器挂VPN下下来，拷贝到当前工作路径下）:</p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        YOLOv11预测
+    </div>
+    <div class='spoiler-content'>
+        <figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token triple-quoted-string string">"""
+DEBUG:
+D435i: img size=(720, 1280, 3), FPS=31.05995, AVG_FPS=31.05758
+D435: img size=(480, 640, 3), FPS=31.42766, AVG_FPS=31.22074
+
+YOLOv11l: (total 32W)
+D435i: 0: 480x640 1 tv, 1 book, 44.5ms
+Speed: 1.3ms preprocess, 44.5ms inference, 2.5ms postprocess per image at shape (1, 3, 480, 640)
+img size=(480, 640, 3), FPS=17.59961, AVG_FPS=18.12866
+
+D435: 0: 480x640 1 person, 1 tv, 1 mouse, 2 keyboards, 57.7ms
+Speed: 1.3ms preprocess, 57.7ms inference, 11.1ms postprocess per image at shape (1, 3, 480, 640)
+img size=(480, 640, 3), FPS=11.24747, AVG_FPS=17.64535
+YOLOv11l: 32W, 18FPS
+YOLOv11m: 30W, 18FPS
+YOLOv11n: 25W, 24FPS
+"""</span>
+<span class="token keyword">import</span> rclpy
+<span class="token keyword">from</span> rclpy<span class="token punctuation">.</span>node <span class="token keyword">import</span> Node
+<span class="token keyword">from</span> sensor_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Image
+<span class="token keyword">from</span> cv_bridge <span class="token keyword">import</span> CvBridge
+<span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> torch
+<span class="token keyword">from</span> ultralytics <span class="token keyword">import</span> YOLO
+<span class="token keyword">from</span> ultralytics<span class="token punctuation">.</span>engine<span class="token punctuation">.</span>results <span class="token keyword">import</span> Results
+
+<span class="token keyword">class</span> <span class="token class-name">CameraSubscriber</span><span class="token punctuation">(</span>Node<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token string">'camera_subscriber'</span><span class="token punctuation">)</span>
+    <span class="token comment"># 订阅相机节点的图像话题（例如：/camera/image_raw）</span>
+    self<span class="token punctuation">.</span>subscription <span class="token operator">=</span> self<span class="token punctuation">.</span>create_subscription<span class="token punctuation">(</span>
+      Image<span class="token punctuation">,</span>
+      <span class="token string">'/camera/camera/color/image_raw'</span><span class="token punctuation">,</span>
+      self<span class="token punctuation">.</span>image_callback<span class="token punctuation">,</span>
+      <span class="token number">10</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>subscription  <span class="token comment"># 防止未使用警告</span>
+    self<span class="token punctuation">.</span>bridge <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>last_receive_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">,</span> self<span class="token punctuation">.</span>count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+    self<span class="token punctuation">.</span>device <span class="token operator">=</span> <span class="token string">'cuda'</span> <span class="token keyword">if</span> torch<span class="token punctuation">.</span>cuda<span class="token punctuation">.</span>is_available<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token string">'cpu'</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Use device: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>device<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>model <span class="token operator">=</span> YOLO<span class="token punctuation">(</span><span class="token string">"yolo11m.pt"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">(</span>self<span class="token punctuation">.</span>device<span class="token punctuation">)</span>
+
+  <span class="token keyword">def</span> <span class="token function">image_callback</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+      <span class="token comment"># 将 ROS 2 图像消息转换为 OpenCV 格式</span>
+      cv_image <span class="token operator">=</span> self<span class="token punctuation">.</span>bridge<span class="token punctuation">.</span>imgmsg_to_cv2<span class="token punctuation">(</span>msg<span class="token punctuation">,</span> <span class="token string">'bgr8'</span><span class="token punctuation">)</span>
+      <span class="token comment"># 显示图像</span>
+      result<span class="token punctuation">:</span> Results <span class="token operator">=</span> self<span class="token punctuation">.</span>model<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>cv_image<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+      cv2<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span><span class="token string">"Detect Camera Image"</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      cv2<span class="token punctuation">.</span>waitKey<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+      fps <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> self<span class="token punctuation">.</span>last_receive_time<span class="token punctuation">)</span>
+      self<span class="token punctuation">.</span>count <span class="token operator">+=</span> <span class="token number">1</span>
+      self<span class="token punctuation">.</span>avg_fps <span class="token operator">+=</span> <span class="token punctuation">(</span>fps <span class="token operator">-</span> self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">)</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>count
+      <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"img size=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>cv_image<span class="token punctuation">.</span>shape<span class="token punctuation">&#125;</span></span><span class="token string">, FPS=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>fps<span class="token punctuation">:</span><span class="token format-spec">.5f</span><span class="token punctuation">&#125;</span></span><span class="token string">, AVG_FPS=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>self<span class="token punctuation">.</span>avg_fps<span class="token punctuation">:</span><span class="token format-spec">.5f</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+      self<span class="token punctuation">.</span>last_receive_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+      self<span class="token punctuation">.</span>get_logger<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Failed to convert image: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>e<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span>args<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  rclpy<span class="token punctuation">.</span>init<span class="token punctuation">(</span>args<span class="token operator">=</span>args<span class="token punctuation">)</span>
+  camera_subscriber <span class="token operator">=</span> CameraSubscriber<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  rclpy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span>camera_subscriber<span class="token punctuation">)</span>
+  camera_subscriber<span class="token punctuation">.</span>destroy_node<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  rclpy<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  cv2<span class="token punctuation">.</span>destroyAllWindows<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+  main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<div id="dplayer1" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer1"),"autoplay":true,"theme":"#FADFA3","loop":true,"lang":"zh-cn//语言","screenshot":true,"hotkey":true,"preload":"auto","volume":0.9,"video":{"url":"/videos/AGX_rs_ros_node_python_yolov11.mp4"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>总功率</th>
+<th>速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YOLOv11l</td>
+<td>32W</td>
+<td>18FPS</td>
+</tr>
+<tr>
+<td>YOLOv11m</td>
+<td>30W</td>
+<td>18FPS</td>
+</tr>
+<tr>
+<td>YOLOv11n</td>
+<td>25W</td>
+<td>24FPS</td>
+</tr>
+</tbody>
+</table>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Robotics/" class="category-chain-item">Robotics</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Jetson AGX Orin 配置</div>
+      <div>https://wty-yy.github.io/posts/25605/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>wty</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/23047/" title="Hexo Fluid 显示视频文件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo Fluid 显示视频文件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/19333/" title="ROS1入门">
+                        <span class="hidden-mobile">ROS1入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.16/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"7JWUOvcOubbTCSI8jHpuVSJ0-gzGzoHsz","appKey":"98rYU3iGXuuKPVyUjNYHGpr9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br> Enjoy sharing! <br> <span id="runtime_span"></span> <script type="text/javascript">function show_runtime(){window.setTimeout("show_runtime()",1000);X=new Date("3/19/2021 00:00:00");Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);runtime_span.innerHTML="小站已运行"+A+"天"+B+"小时"+C+"分"+D+"秒"}show_runtime();</script> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.26.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//fastly.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
