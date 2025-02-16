@@ -19,21 +19,24 @@
   <meta name="author" content="wty">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考: CSDN - L298N 电机驱动板 - 详细介绍">
+    <meta name="description" content="这里记录下SolidWorks绘制模型与3D打印中出现的各种需要注意的问题。  配置介绍  SolidWorks版本为2021，破解版下载链接 3D打印机为Bambu X1 Carbon，材料为Bambu PLA Basic，使用Bambu官方的热床固体胶棒   学习笔记  SolidWorks SolidWorks入门教程可参考Bilibili - 阿奇设计分享 SOLIDWORKS 教学 精品">
 <meta property="og:type" content="article">
-<meta property="og:title" content="L298N电机控制笔记">
-<meta property="og:url" content="https://wty-yy.github.io/posts/15898/index.html">
+<meta property="og:title" content="模型设计及3D打印笔记">
+<meta property="og:url" content="https://wty-yy.github.io/posts/64305/index.html">
 <meta property="og:site_name" content="wty&#39;s blog">
-<meta property="og:description" content="参考: CSDN - L298N 电机驱动板 - 详细介绍">
+<meta property="og:description" content="这里记录下SolidWorks绘制模型与3D打印中出现的各种需要注意的问题。  配置介绍  SolidWorks版本为2021，破解版下载链接 3D打印机为Bambu X1 Carbon，材料为Bambu PLA Basic，使用Bambu官方的热床固体胶棒   学习笔记  SolidWorks SolidWorks入门教程可参考Bilibili - 阿奇设计分享 SOLIDWORKS 教学 精品">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-05T08:44:37.000Z">
-<meta property="article:modified_time" content="2024-11-03T12:29:28.076Z">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/3d_print/bambu_studio_workflows.png">
+<meta property="og:image" content="https://wty-yy.github.io/figures/robotics/3d_print/bambu_studio_slices.png">
+<meta property="article:published_time" content="2025-01-24T04:04:41.000Z">
+<meta property="article:modified_time" content="2025-01-24T05:47:32.038Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/3d_print/bambu_studio_workflows.png">
   
   
   
-  <title>L298N电机控制笔记 - wty&#39;s blog</title>
+  <title>模型设计及3D打印笔记 - wty&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -281,7 +284,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="L298N电机控制笔记"></span>
+            <span id="subtitle" data-typed-text="模型设计及3D打印笔记"></span>
           
         </div>
 
@@ -292,8 +295,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-05 16:44" pubdate>
-          2024年9月5日 下午
+        <time datetime="2025-01-24 12:04" pubdate>
+          2025年1月24日 中午
         </time>
       </span>
     
@@ -304,7 +307,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          13 字
+          748 字
         
       </span>
     
@@ -315,7 +318,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -352,12 +355,58 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">L298N电机控制笔记</h1>
+            <h1 id="seo-header">模型设计及3D打印笔记</h1>
             
             
               <div class="markdown-body">
                 
-                <p>参考: <a target="_blank" rel="noopener" href="https://blog.csdn.net/dingxiang1987824/article/details/113420892">CSDN - L298N 电机驱动板 - 详细介绍</a></p>
+                <p>这里记录下SolidWorks绘制模型与3D打印中出现的各种需要注意的问题。</p>
+<h2 id="配置介绍"><a class="markdownIt-Anchor" href="#配置介绍"></a> 配置介绍</h2>
+<ol>
+<li>SolidWorks版本为2021，<a target="_blank" rel="noopener" href="https://www.jb51.net/softs/795182.html">破解版下载链接</a></li>
+<li>3D打印机为Bambu X1 Carbon，材料为Bambu PLA Basic，使用Bambu官方的热床固体胶棒</li>
+</ol>
+<h2 id="学习笔记"><a class="markdownIt-Anchor" href="#学习笔记"></a> 学习笔记</h2>
+<h3 id="solidworks"><a class="markdownIt-Anchor" href="#solidworks"></a> SolidWorks</h3>
+<p>SolidWorks入门教程可参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iw411Z7HZ">Bilibili - 阿奇设计分享 SOLIDWORKS 教学 精品教程</a></p>
+<p>SolidWorks多使用，熟能生巧，遇到难以设计的模型或关联性，可以再Bilibili上搜索相关内容，基本都有很好的解决方案。</p>
+<h3 id="bambu-x1打印流程"><a class="markdownIt-Anchor" href="#bambu-x1打印流程"></a> Bambu X1打印流程</h3>
+<ol>
+<li>将SolidWorkds中的模型另存为step格式</li>
+<li>打开Bambu Studio，点击上方“准备”，进行如下配置：
+<ol>
+<li>选择你的打印机</li>
+<li>选择你的打印板</li>
+<li>选择你的耗材</li>
+<li>选择0.20mm Stand配置文件</li>
+<li>点击支撑，开启支撑</li>
+<li>保存配置便于以后直接使用（左侧中间）</li>
+<li>将模型拖拽进去</li>
+<li>选中模型，点击上方旋转按钮，将其旋转到所需最少支撑面的姿态</li>
+<li>自动摆放排版，将模型居中，多个模型不相互冲突</li>
+<li>保存3mf文件（左上角保存按钮，模型+配置），<br />
+<img src="/figures/robotics/3d_print/bambu_studio_workflows.png" srcset="/img/loading.gif" lazyload alt="Bambu打印配置" /></li>
+</ol>
+</li>
+<li>点击上方“预览”，开始计算切片，该界面可以检查切片打印顺序，<code>ctrl+g</code>保存切片文件为<code>gcode.3mf</code>（该文件仅包含切片数据+配置）到打印机的sd卡中<br />
+<img src="/figures/robotics/3d_print/bambu_studio_slices.png" srcset="/img/loading.gif" lazyload alt="切片文件查看及保存" /></li>
+<li>在3D打印机中插入对应的耗材（我用的是AMS只需向上推灰色进料口，插入耗材即可），注意如果与文件中耗材型号不同，是无法打印的</li>
+<li>在打印板上涂上固体胶，<strong>非常重要</strong>，所有第一层打印的位置都要涂上，保证第一层打印完整</li>
+<li>选择模型文件，去掉“延迟摄影”勾选，开始打印</li>
+<li>打印过程中，大概8min左右，打印机完成校准、挤出耗材等准备工作，开始打印第一层，我们需要观察第一层是否打印完整，没有任何拉丝、错误覆盖</li>
+<li>如果第一层没有问题，那么等着打印完毕即可</li>
+<li>打印完成后，取下打印件，用水洗净打印版表面和打印件底层的固体胶</li>
+<li>将耗材从进料口中点击退料，拔出来即可</li>
+</ol>
+<h2 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h2>
+<ol>
+<li>3D打印的零件会有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.1</mn></mrow><annotation encoding="application/x-tex">0.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">1</span></span></span></span> mm的<strong>外表面膨胀</strong>，因此在设计装配体时，两个零件之间要对应留出空隙，如果存在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个接触面，减小其中一个零件的垂直距离 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.1</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">0.1n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">1</span><span class="mord mathnormal">n</span></span></span></span> mm（以榫卯结构为例，我通常将内侧圆柱形榫的直径减小 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn></mrow><annotation encoding="application/x-tex">0.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span></span></span></span> mm，高度减少 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn></mrow><annotation encoding="application/x-tex">0.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span></span></span></span> mm）</li>
+<li>设计螺丝孔时，同样要注意打印外表面膨胀问题，因此需要根据真实的螺丝半径稍微修改3D打印中螺丝的口径，来设计更平整的沉头螺丝<br />
+<img src=/figures/robotics/3d_print/screw_3d_design.png width=50%/></li>
+</ol>
+<blockquote>
+<p>我自己总结的各种螺丝对应的3D模型设计：<a target="_blank" rel="noopener" href="https://kdocs.cn/l/cmkN6pJfXCJT">https://kdocs.cn/l/cmkN6pJfXCJT</a></p>
+</blockquote>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
@@ -396,8 +445,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>L298N电机控制笔记</div>
-      <div>https://wty-yy.github.io/posts/15898/</div>
+      <div>模型设计及3D打印笔记</div>
+      <div>https://wty-yy.github.io/posts/64305/</div>
     </div>
     <div class="license-meta">
       
@@ -409,7 +458,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月5日</div>
+          <div>2025年1月24日</div>
         </div>
       
       
@@ -436,6 +485,29 @@
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/43386/" title="Livox mid-360+ROS2+FAST_LIO">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Livox mid-360+ROS2+FAST_LIO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/30945/" title="ROS2笔记">
+                        <span class="hidden-mobile">ROS2笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
