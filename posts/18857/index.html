@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://wty-yy.github.io/figures/essay/bivariate_normal_plot.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/essay/many_number_plot.png">
 <meta property="article:published_time" content="2022-03-31T14:54:03.000Z">
-<meta property="article:modified_time" content="2025-02-26T13:55:36.710Z">
+<meta property="article:modified_time" content="2025-02-27T06:12:52.289Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://s1.ax1x.com/2023/01/01/pSCGYfs.png">
@@ -322,7 +322,7 @@
         
         
         
-          39 分钟
+          40 分钟
         
       </span>
     
@@ -769,27 +769,38 @@ config <span class="token operator">=</span> <span class="token punctuation">&#1
 <span class="token punctuation">&#125;</span>
 plt<span class="token punctuation">.</span>rcParams<span class="token punctuation">.</span>update<span class="token punctuation">(</span>config<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <h3 id="重定向输出到文本和文件"><a class="markdownIt-Anchor" href="#重定向输出到文本和文件"></a> 重定向输出到文本和文件</h3>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> sys
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token triple-quoted-string string">'''
+@File    : redirect_std_to_file.py
+@Time    : 2025/02/27 14:09:38
+@Author  : wty-yy
+@Version : 1.0
+@Blog    : https://wty-yy.github.io/
+@Desc    : For each python process,
+use `redirect_std_to_file(path_log)` once time,
+redirect stdout and stderr into path_log file.
+'''</span>
+<span class="token keyword">import</span> sys
 <span class="token keyword">class</span> <span class="token class-name">Logger</span><span class="token punctuation">:</span>
   <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> filename<span class="token punctuation">)</span><span class="token punctuation">:</span>
     self<span class="token punctuation">.</span>terminal <span class="token operator">=</span> sys<span class="token punctuation">.</span>stdout
     self<span class="token punctuation">.</span>log <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
-  
+
   <span class="token keyword">def</span> <span class="token function">write</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> message<span class="token punctuation">)</span><span class="token punctuation">:</span>
     self<span class="token punctuation">.</span>terminal<span class="token punctuation">.</span>write<span class="token punctuation">(</span>message<span class="token punctuation">)</span>
     self<span class="token punctuation">.</span>log<span class="token punctuation">.</span>write<span class="token punctuation">(</span>message<span class="token punctuation">)</span>
-  
+
   <span class="token keyword">def</span> <span class="token function">flush</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
     self<span class="token punctuation">.</span>terminal<span class="token punctuation">.</span>flush<span class="token punctuation">(</span><span class="token punctuation">)</span>
     self<span class="token punctuation">.</span>log<span class="token punctuation">.</span>flush<span class="token punctuation">(</span><span class="token punctuation">)</span>
-  
+
 <span class="token keyword">def</span> <span class="token function">redirect_std_to_file</span><span class="token punctuation">(</span>filename<span class="token punctuation">)</span><span class="token punctuation">:</span>
   sys<span class="token punctuation">.</span>stderr <span class="token operator">=</span> sys<span class="token punctuation">.</span>stdout <span class="token operator">=</span> Logger<span class="token punctuation">(</span>filename<span class="token punctuation">)</span>
 
 <span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
   redirect_std_to_file<span class="token punctuation">(</span><span class="token string">'test.log'</span><span class="token punctuation">)</span>
   <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"hi"</span><span class="token punctuation">)</span>
-  <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"GG"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+  <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">"GG"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <h3 id="自定义的logger"><a class="markdownIt-Anchor" href="#自定义的logger"></a> 自定义的Logger</h3>
 <p>无需安装额外包，支持：</p>
 <ol>
