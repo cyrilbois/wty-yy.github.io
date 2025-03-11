@@ -19,17 +19,17 @@
   <meta name="author" content="wty">
   <meta name="keywords" content="">
   
-    <meta name="description" content="总结下每次调试乐聚Kuavo42真机遇到的问题 # 真机启动指令为 roslaunch humanoid_controllers load_kuavo_real.launch cali:&#x3D;true cali_arm:&#x3D;true # 关闭所有ros服务, ros意外退出可以用该方法清理 pkill -i ros # 查看当前是否有正在运行的node rosnode list  2025.3.10.">
+    <meta name="description" content="总结下每次调试乐聚Kuavo42真机遇到的问题 # 真机启动指令为 roslaunch humanoid_controllers load_kuavo_real.launch cali:&#x3D;true cali_arm:&#x3D;true # 关闭所有ros服务, ros意外退出可以用该方法清理 pkill -i ros # 查看当前是否有正在运行的node rosnode list">
 <meta property="og:type" content="article">
 <meta property="og:title" content="乐聚Kuavo42机器人真机调试日志">
 <meta property="og:url" content="https://wty-yy.github.io/posts/21424/index.html">
 <meta property="og:site_name" content="wty&#39;s blog">
-<meta property="og:description" content="总结下每次调试乐聚Kuavo42真机遇到的问题 # 真机启动指令为 roslaunch humanoid_controllers load_kuavo_real.launch cali:&#x3D;true cali_arm:&#x3D;true # 关闭所有ros服务, ros意外退出可以用该方法清理 pkill -i ros # 查看当前是否有正在运行的node rosnode list  2025.3.10.">
+<meta property="og:description" content="总结下每次调试乐聚Kuavo42真机遇到的问题 # 真机启动指令为 roslaunch humanoid_controllers load_kuavo_real.launch cali:&#x3D;true cali_arm:&#x3D;true # 关闭所有ros服务, ros意外退出可以用该方法清理 pkill -i ros # 查看当前是否有正在运行的node rosnode list">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/real/kuavo42/tb_logger_leju_down_mujoco.png">
 <meta property="og:image" content="https://wty-yy.github.io/figures/robotics/real/kuavo42/tb_logger_leju_down_real.png">
 <meta property="article:published_time" content="2025-03-10T03:25:09.000Z">
-<meta property="article:modified_time" content="2025-03-10T10:26:55.299Z">
+<meta property="article:modified_time" content="2025-03-11T03:33:50.462Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.github.io/figures/robotics/real/kuavo42/tb_logger_leju_down_mujoco.png">
@@ -307,7 +307,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          997 字
+          1.2k 字
         
       </span>
     
@@ -318,7 +318,7 @@
         
         
         
-          9 分钟
+          10 分钟
         
       </span>
     
@@ -367,6 +367,22 @@ roslaunch humanoid_controllers load_kuavo_real.launch cali:<span class="token op
 <span class="token function">pkill</span> <span class="token parameter variable">-i</span> ros
 <span class="token comment"># 查看当前是否有正在运行的node</span>
 rosnode list<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        点击显/隐ssh连接ip（曲江）
+    </div>
+    <div class='spoiler-content'>
+        <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Host leju_down
+    HostName <span class="token number">192.168</span>.31.102
+    User lab
+    <span class="token comment"># Password: 三个空格</span>
+
+Host leju_up
+    HostName <span class="token number">192.168</span>.31.73
+    User kuavo
+    <span class="token comment"># Password: leju_kuavo</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
 <h3 id="2025310"><a class="markdownIt-Anchor" href="#2025310"></a> 2025.3.10.</h3>
 <h4 id="上午"><a class="markdownIt-Anchor" href="#上午"></a> 上午</h4>
 <p>10:30到曲江开始调机器人</p>
@@ -416,6 +432,45 @@ rosnode list<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <li>重启电机，启动<code>kuavo-ros-opensource-beta</code>，9号电机编码器直接无法读取到数据了，无法启动（日志时间为<code>~/.ros/stdout/2025-03-10_17-59-56</code>）</li>
 </ol>
 <p><img src="/figures/robotics/real/kuavo42/tb_logger_leju_down_real.png" srcset="/img/loading.gif" lazyload alt="真机上时间延迟" /></p>
+<h3 id="2025311"><a class="markdownIt-Anchor" href="#2025311"></a> 2025.3.11.</h3>
+<h4 id="上午-2"><a class="markdownIt-Anchor" href="#上午-2"></a> 上午</h4>
+<p>10点30到曲江开始调试</p>
+<p>按照<a target="_blank" rel="noopener" href="https://kuavo.lejurobot.com/beta_manual/basic_usage/kuavo-ros-control/docs/3%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%85%B3%E8%8A%82%E6%A0%87%E5%AE%9A/">机器人关节标定教程</a>对机器人进行重新标定</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 执行</span>
+<span class="token builtin class-name">source</span> devel/setup.bash
+roslaunch humanoid_controllers load_kuavo_real.launch cali:<span class="token operator">=</span>true cali_leg:<span class="token operator">=</span>true cali_arm:<span class="token operator">=</span>true
+
+<span class="token comment"># 显示如下信息</span>
+0000012766: Slave <span class="token number">1</span> actual position <span class="token number">13.7060546</span>,Encoder <span class="token number">89824.0000000</span>
+0000012776: Rated current <span class="token number">39.6000000</span>
+0000012786: Slave <span class="token number">2</span> actual position -0.4518127,Encoder <span class="token parameter variable">-1645.0000000</span>
+0000012796: Rated current <span class="token number">11.7900000</span>
+0000012806: Slave <span class="token number">3</span> actual position <span class="token number">24.7090759</span>,Encoder <span class="token number">89963.0000000</span>
+0000012816: Rated current <span class="token number">42.4300000</span>
+0000012826: Slave <span class="token number">4</span> actual position -1.4784240,Encoder <span class="token parameter variable">-9689.0000000</span>
+0000012836: Rated current <span class="token number">42.4300000</span>
+0000012846: Slave <span class="token number">5</span> actual position <span class="token number">5.2983093</span>,Encoder <span class="token number">69446.0000000</span>
+0000012856: Rated current <span class="token number">8.4900000</span>
+0000012866: Slave <span class="token number">6</span> actual position <span class="token number">6.0652160</span>,Encoder <span class="token number">79498.0000000</span>
+0000012876: Rated current <span class="token number">8.4900000</span>
+0000012887: Slave <span class="token number">7</span> actual position <span class="token number">16.2445068</span>,Encoder <span class="token number">106460.0000000</span>
+0000012897: Rated current <span class="token number">39.6000000</span>
+0000012906: Slave <span class="token number">8</span> actual position -4.8746337,Encoder <span class="token parameter variable">-17748.0000000</span>
+0000012916: Rated current <span class="token number">11.7900000</span>
+0000012927: Slave <span class="token number">9</span> actual position -2.0871276,Encoder <span class="token parameter variable">-7599.0000000</span>
+0000012937: Rated current <span class="token number">42.4300000</span>
+0000012946: Slave <span class="token number">10</span> actual position -17.6039123,Encoder <span class="token parameter variable">-115369.0000000</span>
+0000012956: Rated current <span class="token number">42.4300000</span>
+0000012966: Slave <span class="token number">11</span> actual position -3.6605835,Encoder <span class="token parameter variable">-47980.0000000</span>
+0000012977: Rated current <span class="token number">8.4900000</span>
+0000012987: Slave <span class="token number">12</span> actual position <span class="token number">10.4799652</span>,Encoder <span class="token number">137363.0000000</span>
+0000012997: Rated current <span class="token number">8.4900000</span>
+0000013010: Slave <span class="token number">13</span> actual position <span class="token number">18.7921142</span>,Encoder <span class="token number">68420.0000000</span>
+0000013019: Rated current <span class="token number">14.9900000</span>
+0000013029: Slave <span class="token number">14</span> actual position -4.8100891,Encoder <span class="token parameter variable">-17513.0000000</span>
+0000013039: Rated current <span class="token number">14.9900000</span>
+
+<span class="token comment"># 按c保存当前偏移量到~/.config/lejuconfig/offset.csv文件中</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
