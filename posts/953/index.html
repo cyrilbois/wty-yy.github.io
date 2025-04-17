@@ -27,7 +27,7 @@
 <meta property="og:description" content="git作为最流行代码版本管理软件，使我们可以方便的查看每次代码的更新内容，不用害怕修改代码时出现错误回退不到之前的版本，还可以将代码开源到GitHub，Gitee上，向更多人分享我们的成果，我使用了好久的git，但还是对整个处理逻辑理解不充分，容易导致误操作，因此简单总结下git的使用方法  实战操作 我们先介绍本次git仓库的使用方法，再介绍如何将本地仓库上传到远程仓库，所有操作都在Linux系">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-27T07:24:23.000Z">
-<meta property="article:modified_time" content="2025-03-29T07:49:24.457Z">
+<meta property="article:modified_time" content="2025-04-17T14:18:49.907Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -304,7 +304,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.8k 字
+          6k 字
         
       </span>
     
@@ -315,7 +315,7 @@
         
         
         
-          49 分钟
+          51 分钟
         
       </span>
     
@@ -785,11 +785,19 @@
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> pull  <span class="token comment"># 主仓库更新</span>
 <span class="token comment"># 注意主仓库更新并不会携带子模块更新, 需要手动执行以下命令</span>
 <span class="token function">git</span> submodule update <span class="token parameter variable">--remote</span>  <span class="token comment"># 更新子模块</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="创建子模块无需clone整个子模块仓库"><a class="markdownIt-Anchor" href="#创建子模块无需clone整个子模块仓库"></a> 创建子模块无需clone整个子模块仓库</h3>
+<p>如果我们的子模块仓库非常庞大，但是我们仅想要某个commit/branch/tags的信息，可以先用clone方法创建好文件夹，再用<code>submodule add</code>来添加：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 还是以添加test-submodule的master分支为例</span>
+<span class="token comment"># 先单独clone master最新commit</span>
+<span class="token function">git</span> clone <span class="token parameter variable">--depth</span> <span class="token number">1</span> <span class="token parameter variable">--branch</span> master https://github.com/wty-yy-mini/test-submodule.git
+<span class="token comment"># 添加子模块</span>
+<span class="token function">git</span> submodule <span class="token function">add</span> <span class="token parameter variable">-b</span> master https://github.com/wty-yy-mini/test-submodule.git test-submodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这样就无需对整个<code>test-submodule</code>进行下载了！</p>
 <h1 id="命令小结"><a class="markdownIt-Anchor" href="#命令小结"></a> 命令小结</h1>
 <blockquote>
 <p>将上文用到的指令进行总结，by deepseek-R1</p>
 </blockquote>
-<h2 id="初始化与基础操作"><a class="markdownIt-Anchor" href="#初始化与基础操作"></a> <strong>初始化与基础操作</strong></h2>
+<h2 id="初始化与基础操作"><a class="markdownIt-Anchor" href="#初始化与基础操作"></a> 初始化与基础操作</h2>
 <ol>
 <li>
 <p><strong><code>git init</code></strong><br />
@@ -821,7 +829,7 @@
 回退指定提交的修改，生成新的提交记录（适用于保留后续提交的场景）。</p>
 </li>
 </ol>
-<h2 id="查看与日志"><a class="markdownIt-Anchor" href="#查看与日志"></a> <strong>查看与日志</strong></h2>
+<h2 id="查看与日志"><a class="markdownIt-Anchor" href="#查看与日志"></a> 查看与日志</h2>
 <ol>
 <li>
 <p><strong><code>git log</code></strong><br />
@@ -840,7 +848,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="分支管理"><a class="markdownIt-Anchor" href="#分支管理"></a> <strong>分支管理</strong></h2>
+<h2 id="分支管理"><a class="markdownIt-Anchor" href="#分支管理"></a> 分支管理</h2>
 <ol>
 <li>
 <p><strong><code>git branch</code></strong><br />
@@ -864,7 +872,7 @@
 合并指定分支到当前分支（可能需手动解决冲突）。</p>
 </li>
 </ol>
-<h2 id="标签管理"><a class="markdownIt-Anchor" href="#标签管理"></a> <strong>标签管理</strong></h2>
+<h2 id="标签管理"><a class="markdownIt-Anchor" href="#标签管理"></a> 标签管理</h2>
 <ol>
 <li><strong><code>git tag</code></strong><br />
 管理标签：
@@ -875,8 +883,27 @@
 </ul>
 </li>
 </ol>
-<h2 id="远程仓库操作"><a class="markdownIt-Anchor" href="#远程仓库操作"></a> <strong>远程仓库操作</strong></h2>
+<h2 id="克隆下载远程仓库"><a class="markdownIt-Anchor" href="#克隆下载远程仓库"></a> 克隆(下载)远程仓库</h2>
 <ol>
+<li>
+<p><strong><code>git clone &lt;远程URL&gt; [本地存储路径]</code></strong><br />
+克隆远程仓库的全部分支</p>
+</li>
+<li>
+<p><strong><code>git clone --branch &lt;branch名称/tag名称&gt; --depth 1 &lt;仓库URL&gt; [本地存储路径]</code></strong><br />
+仅下载某个branch/tags</p>
+</li>
+<li>
+<p>仅克隆某个指定提交ID</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> init <span class="token operator">&lt;</span>仓库名称<span class="token operator">></span>
+<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>仓库名称<span class="token operator">></span>
+<span class="token function">git</span> remote <span class="token function">add</span> origin <span class="token operator">&lt;</span>仓库URL<span class="token operator">></span>
+<span class="token function">git</span> fetch <span class="token parameter variable">--depth</span> <span class="token number">1</span> origin <span class="token operator">&lt;</span>完整提交ID<span class="token operator">></span>
+<span class="token function">git</span> checkout FETCH_HEAD<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+</li>
+</ol>
+<h2 id="远程仓库操作"><a class="markdownIt-Anchor" href="#远程仓库操作"></a> 远程仓库操作</h2>
+<ol start="2">
 <li>
 <p><strong><code>git remote</code></strong><br />
 管理远程仓库：</p>
@@ -906,10 +933,10 @@
 拉取远程的分支但不进行合并。</p>
 </li>
 </ol>
-<h2 id="子模块管理"><a class="markdownIt-Anchor" href="#子模块管理"></a> <strong>子模块管理</strong></h2>
+<h2 id="子模块管理"><a class="markdownIt-Anchor" href="#子模块管理"></a> 子模块管理</h2>
 <ol>
 <li>
-<p><strong><code>git submodule add -b &lt;分支&gt; &lt;仓库URL&gt; &lt;路径&gt;</code></strong><br />
+<p><strong><code>git submodule add -b &lt;分支&gt; &lt;仓库URL&gt; [本地存储路径]</code></strong><br />
 添加子模块并指定跟踪分支。</p>
 </li>
 <li>
@@ -920,8 +947,12 @@
 <p><strong><code>git clone --recurse-submodules &lt;仓库URL&gt;</code></strong><br />
 克隆主仓库时递归克隆所有子模块。</p>
 </li>
+<li>
+<p><strong><code>cat .gitmodules</code>或<code>git submodule</code></strong><br />
+查看当前仓库中的子模块信息</p>
+</li>
 </ol>
-<h2 id="配置与工具"><a class="markdownIt-Anchor" href="#配置与工具"></a> <strong>配置与工具</strong></h2>
+<h2 id="配置与工具"><a class="markdownIt-Anchor" href="#配置与工具"></a> 配置与工具</h2>
 <ol>
 <li>
 <p><strong><code>git config</code></strong><br />
@@ -937,7 +968,7 @@
 查看本地分支与远程分支的绑定关系。</p>
 </li>
 </ol>
-<h2 id="其他实用命令"><a class="markdownIt-Anchor" href="#其他实用命令"></a> <strong>其他实用命令</strong></h2>
+<h2 id="其他实用命令"><a class="markdownIt-Anchor" href="#其他实用命令"></a> 其他实用命令</h2>
 <ol>
 <li>
 <p><strong><code>git rm &lt;文件&gt;</code></strong><br />
@@ -1034,6 +1065,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/posts/53877/" title="IsaacSim 笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IsaacSim 笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
