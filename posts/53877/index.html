@@ -19,17 +19,20 @@
   <meta name="author" content="wty">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本笔记基于IsaacSim 4.5.0，参考官方文档">
+    <meta name="description" content="本笔记基于IsaacSim 4.5.0，参考官方文档，本Blog的所有用例请见wty-yy&#x2F;isaac-sim-use-cases IsaacSim官方文档有非常多的代码与用例教学，但可能分布比较杂乱，这里重新理顺逻辑，并进行一些总结  安装 首先你需要一个有Nvidia显卡的电脑，RTX 3070以上，可以通过Isaac Sim Requirements中查看自己电脑是否支持安装 IsaacSi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IsaacSim 笔记">
 <meta property="og:url" content="https://wty-yy.xyz/posts/53877/index.html">
 <meta property="og:site_name" content="wty&#39;s blog">
-<meta property="og:description" content="本笔记基于IsaacSim 4.5.0，参考官方文档">
+<meta property="og:description" content="本笔记基于IsaacSim 4.5.0，参考官方文档，本Blog的所有用例请见wty-yy&#x2F;isaac-sim-use-cases IsaacSim官方文档有非常多的代码与用例教学，但可能分布比较杂乱，这里重新理顺逻辑，并进行一些总结  安装 首先你需要一个有Nvidia显卡的电脑，RTX 3070以上，可以通过Isaac Sim Requirements中查看自己电脑是否支持安装 IsaacSi">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wty-yy.xyz/figures/robotics/isaac_sim_note/WorldSceneStage.png">
+<meta property="og:image" content="https://wty-yy.xyz/figures/robotics/isaac_sim_note/isaac_sim_core_api_graph.drawio.png">
 <meta property="article:published_time" content="2025-04-17T07:58:37.000Z">
-<meta property="article:modified_time" content="2025-04-17T11:59:47.546Z">
+<meta property="article:modified_time" content="2025-04-18T13:27:45.383Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wty-yy.xyz/figures/robotics/isaac_sim_note/WorldSceneStage.png">
   
   
   
@@ -304,7 +307,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          14 字
+          1.3k 字
         
       </span>
     
@@ -315,7 +318,7 @@
         
         
         
-          1 分钟
+          11 分钟
         
       </span>
     
@@ -357,10 +360,93 @@
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>本笔记基于IsaacSim 4.5.0，参考<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/index.html">官方文档</a></p>
+                <p>本笔记基于IsaacSim 4.5.0，参考<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/index.html">官方文档</a>，本Blog的所有用例请见<a target="_blank" rel="noopener" href="https://github.com/wty-yy/isaac-sim-use-cases">wty-yy/isaac-sim-use-cases</a></p>
+<p>IsaacSim官方文档有非常多的代码与用例教学，但可能分布比较杂乱，这里重新理顺逻辑，并进行一些总结</p>
+<h1 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h1>
+<p>首先你需要一个有Nvidia显卡的电脑，RTX 3070以上，可以通过<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/installation/requirements.html">Isaac Sim Requirements</a>中查看自己电脑是否支持安装</p>
+<p>IsaacSim安装：在<code>4.5.0</code>之后就可以直接在官网下载可执行的IsaacSim了，支持Linux和Windows，以下操作都在Ubuntu 24.04上完成，Windows理论上没有较大区别，常用安装方法有三种：</p>
+<blockquote>
+<p>如果你已经有conda，推荐用第二种安装方式，比较方便，并且后续安装<a target="_blank" rel="noopener" href="https://isaac-sim.github.io/IsaacLab/main/index.html">IsaacLab</a>用于强化训练，也可以直接在其基础上安装</p>
 </blockquote>
-<h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
+<ol>
+<li>二进制文件：<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html">Download Isaac Sim</a>
+<ul>
+<li>安装完成后也可以安装conda环境，参考<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html#advanced-running-with-anaconda">Advanced: Running with Anaconda</a></li>
+<li><strong>conda安装后的推荐操作</strong>：每次启动环境后还需手动<code>source $ISAAC_PATH/setup_conda_env.sh</code>文件，效率很低，因此我们可以将该命令加入到环境启动时运行，具体来说  <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">conda activate isaac-sim
+<span class="token builtin class-name">cd</span> <span class="token variable">$CONDA_PREFIX</span>/etc/conda/activate.d
+<span class="token function">vim</span> isaacsim_hook.sh
+<span class="token comment"># ================= 文件中写入如下内容 =================</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token builtin class-name">source</span> <span class="token operator">&lt;</span>替换为IsaacSim安装路径<span class="token operator">></span>/setup_conda_env.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+这样就可以在启动环境时，自动加入IsaacSim相关的环境变量了！</li>
+</ul>
+</li>
+<li>pip安装到环境：<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html#install-isaac-sim-using-pip">Install Isaac Sim using PIP</a>，此方法会将IsaacSim安装到conda的pip包路径中，位置有点难找，其余没有什么缺点</li>
+<li>docker安装：<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_container.html">Install Container</a></li>
+</ol>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>第一次启动IsaacSim会非常慢，需要编译大量文件，可以打开任务管理器看CPU的使用率，当使用率降下来时就是编译完成了</li>
+<li>使用IsaacSim中建议全程打开VPN，因为可能需要从Omniverse Nucleus服务器上下载机器人、环境文件，否则可能卡住不动，可以看网卡下载流量，判断IsaacSim是否卡住</li>
+</ol>
+<h1 id="基础芝士"><a class="markdownIt-Anchor" href="#基础芝士"></a> 基础芝士</h1>
+<h2 id="isaacsim逻辑"><a class="markdownIt-Anchor" href="#isaacsim逻辑"></a> IsaacSim逻辑</h2>
+<h3 id="工作流"><a class="markdownIt-Anchor" href="#工作流"></a> 工作流</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/introduction/workflows.html">IsaacSim/workflows</a>，将IsaacSim的控制方法分为如下三种：</p>
+<ol>
+<li>可视化窗口交互 GUI：
+<ul>
+<li>启动方法：可视化界面操作，如果是pip安装，直接执行<code>isaacsim</code>即可，如果是二进制安装，到安装目录下执行<code>./isaac-sim.sh</code>即可打开，打开后就可以看到可视化界面</li>
+<li>官方教程推荐：<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/gui/index.html#tutorials">GUI/tutorial</a>中如何搭建一个小车，然后中间遇到一个新的窗口操作，看窗口的细节<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/gui/index.html#windows">GUI/Windows</a></li>
+<li>用途：可以方便的查看、修改机器人模型、场景搭建，在Python代码执行中可以进行调试</li>
+</ul>
+</li>
+<li>插件交互 Extensions：
+<ul>
+<li>启动方法：
+<ul>
+<li>Interactive Examples插件的使用方法：官方使用方法教程<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/introduction/examples.html#interactive-examples">Interactive Examples</a>，或者看<a target="_blank" rel="noopener" href="https://github.com/wty-yy/isaac-sim-use-cases/blob/master/interactive/README.md">wty-yy/isaac-sim-use-cases:Interactive用例/使用方法</a>，这里介绍了如何创建自定义脚本，及启动方法</li>
+<li>其他插件：可以认为GUI中的每个小窗口都是一个插件，相关插件可以在Window-&gt;Extensions中进行管理</li>
+</ul>
+</li>
+<li>官方教程推荐：
+<ul>
+<li>Python脚本控制仿真环境<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/core_api_tutorials/index.html#core-api-tutorial-series">Core API Tutorial Series</a>中的全部内容</li>
+<li>样例学习：在<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/introduction/menu_examples.html#examples-reference-table">Examples Reference Table</a>中查看感兴趣的样例</li>
+<li>插件编写：<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/utilities/extension_template_generator.html">Extension Template Generator</a></li>
+</ul>
+</li>
+<li>用途：每次修改代码后，Interactive Examples中的代码会立刻更新(hot-reload)，点击LOAD按钮即可看到修改后的代码效果，便于调试代码、测试机器人</li>
+</ul>
+</li>
+<li>独立启动运行 Standalone：
+<ul>
+<li>启动方法：
+<ul>
+<li>直接通过<code>python.sh &lt;代码路径&gt;</code>执行（Windows是<code>python.bat</code>）</li>
+<li><strong>推荐</strong>使用conda环境启动，参考<a href="./#%E5%AE%89%E8%A3%85">安装方法</a>中的<strong>二进制文件</strong>或者<strong>pip安装到环境</strong>，进入<code>isaac-sim</code>环境后，直接执行<code>python &lt;代码路径&gt;</code></li>
+</ul>
+</li>
+<li>官方教程推荐：在IsaacSim安装目录下的<code>$ISAAC_PATH/standalone_examples/api</code>中，有各种插件对应的api接口使用教程，可以选择感兴趣的样例进行学习</li>
+<li>用途：通过Python单独启动仿真，缺点是每次启动新的仿真需要花费时间，常用于RL训练</li>
+</ul>
+</li>
+</ol>
+<h3 id="关键词及core-api调用关系"><a class="markdownIt-Anchor" href="#关键词及core-api调用关系"></a> 关键词及Core API调用关系</h3>
+<p><img src="/figures/robotics/isaac_sim_note/WorldSceneStage.png" srcset="/img/loading.gif" lazyload alt="调用关系示意图" /></p>
+<p>官方在<a target="_blank" rel="noopener" href="https://docs.isaacsim.omniverse.nvidia.com/latest/python_scripting/core_api_overview.html#application-vs-simulation-vs-world-vs-scene-vs-stage">Core API Overview</a>中对所有的接口进行大致介绍，我这里重新梳理一遍（结合自己在代码中使用的逻辑）：</p>
+<ul>
+<li>Prim：Primitive（原始的）表示物体的本体属性，例如质量、外形、关节连接等</li>
+<li>Attri：Attribute（属性）表示物体在环境中的属性，例如当前位置、朝向、速度、加速度等</li>
+<li>USD：包含各种Prim和相应的Attri，即物体的描述以及位置和朝向等信息（USD相当于下文的Stage，也可将USD加入到Stage/USD中）</li>
+<li>Simulation：根据代码逻辑改变Prim的Attri信息</li>
+<li>Stage：管理各种Prim及其对应的Attri信息</li>
+<li>World：管理Simulation和Stage，将二者进行连接构建成仿真场景，具有启动/重置的功能</li>
+<li>Scene：管理Prim和Attri，可将Prim加入Stage中，初始化Attri信息并为其分配<code>prim_path</code></li>
+<li>App：对Simulation的上层管理，例如渲染、用户交互（添加物体、控制仿真是否继续）</li>
+</ul>
+<p>总的来说，我将上述关系总结为下图便于理解<br />
+<img src="/figures/robotics/isaac_sim_note/isaac_sim_core_api_graph.drawio.png" srcset="/img/loading.gif" lazyload alt="IsaacSim Core API关系图" /></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
