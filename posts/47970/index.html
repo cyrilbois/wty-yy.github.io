@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/x11vnc_startup_application.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/novnc_startup_application.png">
 <meta property="article:published_time" content="2025-05-15T05:22:30.000Z">
-<meta property="article:modified_time" content="2025-05-15T07:08:53.185Z">
+<meta property="article:modified_time" content="2025-05-15T07:23:20.180Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/x11vnc_startup_application.png">
@@ -318,7 +318,7 @@
         
         
         
-          9 分钟
+          10 分钟
         
       </span>
     
@@ -459,7 +459,8 @@
 <p>自动启动配置如下，还是先创建启动脚本</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/init.d/novnc.sh  <span class="token comment"># 启动脚本内容如下</span>
 <span class="token comment">#!/bin/bash</span>
-/home/lab/Programs/noVNC/utils/novnc_proxy <span class="token parameter variable">--vnc</span> localhost:5900<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<span class="token operator">&lt;</span>YOUR_PATH<span class="token operator">></span>/noVNC/utils/novnc_proxy <span class="token parameter variable">--vnc</span> localhost:5900<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>注意上述路径请替换为你的，并测试一下能否运行<code>source /etc/init.d/novnc.sh</code></p>
 <p>类似上述设置自启动脚本的方法，添加到自启动项中，按左下角功能键（Win键），输入<code>startup application</code>，打开窗口点击右侧<code>Add</code>，修改内容如下后保存：<br />
 <img src="/figures/Linux/screen_sharing/novnc_startup_application.png" srcset="/img/loading.gif" lazyload alt="noVNC startup application" /></p>
 <h3 id="realvnc"><a class="markdownIt-Anchor" href="#realvnc"></a> RealVNC</h3>
