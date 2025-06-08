@@ -4,7 +4,7 @@
   <url>
     <loc>https://wty-yy.xyz/posts/62745/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-06-08</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -461,6 +461,15 @@
   </url>
   
   <url>
+    <loc>https://wty-yy.xyz/css/fold_code.css</loc>
+    
+    <lastmod>2024-05-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://wty-yy.xyz/categories/index.html</loc>
     
     <lastmod>2024-05-24</lastmod>
@@ -470,7 +479,7 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/css/fold_code.css</loc>
+    <loc>https://wty-yy.xyz/posts/751/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -516,15 +525,6 @@
   
   <url>
     <loc>https://wty-yy.xyz/posts/30216/</loc>
-    
-    <lastmod>2024-05-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wty-yy.xyz/posts/751/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -776,7 +776,7 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/posts/29775/</loc>
+    <loc>https://wty-yy.xyz/posts/34494/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -785,7 +785,7 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/posts/34494/</loc>
+    <loc>https://wty-yy.xyz/posts/29775/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -911,6 +911,15 @@
   </url>
   
   <url>
+    <loc>https://wty-yy.xyz/posts/42812/</loc>
+    
+    <lastmod>2024-05-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://wty-yy.xyz/posts/56847/</loc>
     
     <lastmod>2024-05-24</lastmod>
@@ -957,15 +966,6 @@
   
   <url>
     <loc>https://wty-yy.xyz/posts/53297/</loc>
-    
-    <lastmod>2024-05-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://wty-yy.xyz/posts/42812/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -1091,7 +1091,7 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/posts/3451/</loc>
+    <loc>https://wty-yy.xyz/posts/25882/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -1100,7 +1100,7 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/posts/25882/</loc>
+    <loc>https://wty-yy.xyz/posts/3451/</loc>
     
     <lastmod>2024-05-24</lastmod>
     
@@ -1923,27 +1923,6 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/tags/Jax/</loc>
-    <lastmod>2025-06-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wty-yy.xyz/tags/MNIST/</loc>
-    <lastmod>2025-06-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://wty-yy.xyz/tags/TensorFlow/</loc>
-    <lastmod>2025-06-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://wty-yy.xyz/tags/RNN/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -1966,6 +1945,27 @@
   
   <url>
     <loc>https://wty-yy.xyz/tags/DQN/</loc>
+    <lastmod>2025-06-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wty-yy.xyz/tags/Jax/</loc>
+    <lastmod>2025-06-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wty-yy.xyz/tags/MNIST/</loc>
+    <lastmod>2025-06-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://wty-yy.xyz/tags/TensorFlow/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2009,14 +2009,14 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/coding/algorithm/</loc>
+    <loc>https://wty-yy.xyz/categories/coding/ICPC/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/coding/ICPC/</loc>
+    <loc>https://wty-yy.xyz/categories/coding/algorithm/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2030,14 +2030,14 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/coding/cf/</loc>
+    <loc>https://wty-yy.xyz/categories/coding/%E6%AF%94%E8%B5%9B/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/coding/%E6%AF%94%E8%B5%9B/</loc>
+    <loc>https://wty-yy.xyz/categories/coding/cf/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2072,14 +2072,14 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/Linux/</loc>
+    <loc>https://wty-yy.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://wty-yy.xyz/categories/Linux/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2114,14 +2114,14 @@
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/Math/%E8%BF%91%E4%B8%96%E4%BB%A3%E6%95%B0/</loc>
+    <loc>https://wty-yy.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://wty-yy.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/</loc>
+    <loc>https://wty-yy.xyz/categories/Math/%E8%BF%91%E4%B8%96%E4%BB%A3%E6%95%B0/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
