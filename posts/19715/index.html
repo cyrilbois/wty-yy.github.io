@@ -32,9 +32,14 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/map_around199.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.1_wyh_40h_part1.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.1_wyh_40h_part2.png">
+<meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.3_ghw_20h_part1.png">
+<meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.3_ghw_20h_part2.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.2_wty_40h.jpg">
+<meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/v1.1_wty_26h.jpg">
+<meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/hok_prelim_result.png">
+<meta property="og:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/rob_prelim_reseult.png">
 <meta property="article:published_time" content="2025-08-08T06:31:32.000Z">
-<meta property="article:modified_time" content="2025-08-08T09:26:03.448Z">
+<meta property="article:modified_time" content="2025-08-09T06:52:46.935Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/competitions/kaiwu2025/map1.png">
@@ -312,7 +317,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.2k 字
         
       </span>
     
@@ -323,7 +328,7 @@
         
         
         
-          17 分钟
+          19 分钟
         
       </span>
     
@@ -565,8 +570,32 @@ REW_GLOBAL_SCALE <span class="token operator">=</span> <span class="token number
 </tr>
 </tbody>
 </table>
+<p>v1.3 ghw训练20h 具身, ddqn, cnn, buffsize 1e6, gamma=0.995 代码版本<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu_taichu/tree/2025_prelim_v1.1">2025 prelim v1.1</a></p>
+<table>
+<thead>
+<tr>
+<th>part1</th>
+<th>part2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/figures/competitions/kaiwu2025/v1.3_ghw_20h_part1.png" srcset="/img/loading.gif" lazyload alt="part1" /></td>
+<td><img src="/figures/competitions/kaiwu2025/v1.3_ghw_20h_part2.png" srcset="/img/loading.gif" lazyload alt="part2" /></td>
+</tr>
+</tbody>
+</table>
 <p>v1.2 wty训练40h 王者, target_dqn, cnn, buffsize 1e6, gamma=0.9 代码版本<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu_taichu/tree/2025_prelim_v1.2">2025 prelim v1.2</a><br />
 <img src="/figures/competitions/kaiwu2025/v1.2_wty_40h.jpg" srcset="/img/loading.gif" lazyload alt="v1.2 wty" /></p>
+<p>v1.1 wty训练26h 王者, target_dqn, cnn, buffsize 1e5, gamma=0.9 代码版本<a target="_blank" rel="noopener" href="https://github.com/wty-yy/kaiwu_taichu/tree/2025_prelim_v1.1">2025 prelim v1.1</a><br />
+<img src="/figures/competitions/kaiwu2025/v1.1_wty_26h.jpg" srcset="/img/loading.gif" lazyload alt="v1.1 wty" /></p>
+<p>注意: 一定要将<code>sample_production_and_consumption_ratio</code>控制在10以下</p>
+<p>问题：</p>
+<ol>
+<li>v1.1最后总是少一个宝箱</li>
+<li>v1.2最后会少很多宝箱</li>
+<li>v1.3前期捡到所有宝箱速度很快，但最后无法走到终点</li>
+</ol>
 <h2 id="代码架构"><a class="markdownIt-Anchor" href="#代码架构"></a> 代码架构</h2>
 <p>这里我们只在<code>target_dqn</code>上进行了成功的修改, 这里仅介绍该算法架构</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">code
@@ -600,7 +629,12 @@ REW_GLOBAL_SCALE <span class="token operator">=</span> <span class="token number
 <li><code>sample_production_and_consumption_ratio</code>不能过高, 根据开启的并行环境数, 和电脑的性能, 自行调整<code>configure_app.toml</code>中的<code>train_sleep_time</code>来降低 (虽然导致训练变慢, 但是训练效果更好)</li>
 <li>先从简单奖励开始测试算法可行性 (例如官方给的ppo就不知道为什么训练不出来), 模型的训练效率, 例如可以先单独只开不撞墙奖励, 训练10mins左右模型就会收敛到一个不撞墙策略上, 而对模型加入残差和layernorm就会导致30mins都不收敛</li>
 <li>先要一开始跑出一个能用的算法、奖励、模型先，在一个可以训出来的奖励上慢慢加内容</li>
+<li>最后总存在宝箱无法捡完的问题，而且还有明显的重复路径，可能奖励设计还是有问题，需要改进</li>
 </ol>
+<p>最终排名，王者前70名进入复赛，具身前50名进入复赛：<br />
+<img src="/figures/competitions/kaiwu2025/hok_prelim_result.png" srcset="/img/loading.gif" lazyload alt="王者使用模型v1.2" /><br />
+<img src="/figures/competitions/kaiwu2025/rob_prelim_reseult.png" srcset="/img/loading.gif" lazyload alt="具身使用模型v1.1" /></p>
+<p>p.s. 最后结束王者的v1.1才训练出来，估计能排到20多名位置，所以应该还有很多优化空间</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
