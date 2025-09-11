@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/x11vnc_startup_application.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/novnc_startup_application.png">
 <meta property="article:published_time" content="2025-05-15T05:22:30.000Z">
-<meta property="article:modified_time" content="2025-09-08T08:30:02.745Z">
+<meta property="article:modified_time" content="2025-09-11T12:07:47.989Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/Linux/screen_sharing/x11vnc_startup_application.png">
@@ -307,7 +307,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.5k 字
+          4.6k 字
         
       </span>
     
@@ -318,7 +318,7 @@
         
         
         
-          38 分钟
+          39 分钟
         
       </span>
     
@@ -502,7 +502,7 @@ X <span class="token environment constant">DISPLAY</span> <span class="token com
 <img src="/figures/Linux/screen_sharing/novnc_startup_application.png" srcset="/img/loading.gif" lazyload alt="noVNC startup application" /></p>
 <h3 id="realvnc"><a class="markdownIt-Anchor" href="#realvnc"></a> RealVNC</h3>
 <p>在<a target="_blank" rel="noopener" href="https://www.realvnc.com/en/connect/download/viewer">RealVNC/Download</a>中下载并安装，在打开APP界面，直接输入<code>IP:5900</code>即可直接连上（Linux的缺点是无法复制文本内容，有点麻烦）</p>
-<h1 id="服务器或nvidia-jetson可视化"><a class="markdownIt-Anchor" href="#服务器或nvidia-jetson可视化"></a> 服务器或Nvidia Jetson可视化</h1>
+<h1 id="服务器可视化"><a class="markdownIt-Anchor" href="#服务器可视化"></a> 服务器可视化</h1>
 <p>除了<code>apt</code>所需的命令需要管理员权限，其他的命令都可以非管理员执行，例如<code>vncserver</code>、启动<code>noVNC</code>，由于服务器默认是没有可视化界面的，因此考虑用<code>tigervnc</code>来启动界面</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> tigervnc-standalone-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
 <p>先用<code>tigervncserver -xstartup /usr/bin/xterm</code>排除下问题</p>
@@ -579,6 +579,12 @@ OpenGL renderer string: NVIDIA GeForce RTX <span class="token number">4090</span
 <blockquote>
 <p>这一段启动需要sudo权限，以及至少4个终端，推荐用VsCode或者Tmux拆分终端，或者直接参考最后的一键启动脚本</p>
 </blockquote>
+<p>仅需安装x11vnc和noVNC，详细用法介绍请见上文<a href="./#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB">局域网屏幕共享</a>，这里给出直接使用方法</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> x11vnc
+<span class="token comment"># 创建noVNC存储位置</span>
+<span class="token function">mkdir</span> ~/Programs
+<span class="token builtin class-name">cd</span> ~/Programs
+<span class="token function">git</span> clone https://github.com/novnc/noVNC.git<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <p>这个可能是服务器上最好用的窗口渲染方法，在尝试了各种VNC转发，只有这种方法可以渲染<code>IsaacGym, IsaacSim</code></p>
 <p><code>Xorg</code>和<code>Xvfb</code>都是启动X服务的方法（<code>startx</code>也是便捷方法，但是启动后权限总是有问题于是不用），但只有<code>Xorg</code>才会用到<code>/etc/X11/xorg.conf</code>配置文件，因此使用<code>Xorg</code></p>
 <p>我们要直接用Nvidia显卡渲染需要自定义一个X服务，再启动<code>x11vnc</code>用VNC协议转发图像界面，用<code>noVNC</code>使浏览器可以访问VNC界面，最后打开<code>xfce</code>会话就可以看到图形界面啦，从而也可以用Nvidia驱动渲染界面，打开<code>IsaacGym, IssaacSim</code>，流程如下：</p>
@@ -678,7 +684,7 @@ EndSection<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
 <li>通过命令行打开可视化程序，只需要在终端执行一次<code>export DISPLAY=:1</code>，后续的所有可视化窗口都会在这个界面显示出来啦</li>
 </ol>
 <p>例如我们在Gnome下启动了<code>python -m mujoco.viewer</code>，<code>./isaac-sim.sh</code>, <code>python 1080_balls_of_solitude.py</code>效果如下，大功告成！（用工位的网络，非常流畅，和本机使用差不多效果，还只需要启动一个网页即可，非常方便，手机也可以）</p>
-<div id="dplayer3" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer3"),"autoplay":true,"theme":"#FADFA3","loop":true,"lang":"zh-cn//语言","screenshot":true,"hotkey":true,"preload":"auto","volume":0.9,"video":{"url":"/videos/server_vnc_mujoco_isaac_demo.mp4"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+<div id="dplayer1" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer1"),"autoplay":true,"theme":"#FADFA3","loop":true,"lang":"zh-cn//语言","screenshot":true,"hotkey":true,"preload":"auto","volume":0.9,"video":{"url":"/videos/server_vnc_mujoco_isaac_demo.mp4"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
 <p>通过<code>glxinfo | grep renderer</code>可查看使用的渲染：</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ glxinfo <span class="token operator">|</span> <span class="token function">grep</span> renderer
 <span class="token comment"># 有Nvidia驱动</span>
@@ -686,18 +692,14 @@ OpenGL renderer string: NVIDIA GeForce RTX <span class="token number">4090</span
 <span class="token comment"># 没有显卡驱动，CPU软件渲染</span>
 OpenGL renderer string: llvmpipe <span class="token punctuation">(</span>LLVM <span class="token punctuation">..</span>.<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <h3 id="一键启动脚本"><a class="markdownIt-Anchor" href="#一键启动脚本"></a> 一键启动脚本</h3>
-<p>创建脚本位置放在<code>/usr/local/bin/start-gnome-vnc.sh</code>（放哪都行，因为有<code>sudo</code>命令所以放在根目录下了），使用方法：</p>
+<p>创建脚本位置放在<code>/usr/local/bin/start-gnome-vnc.sh</code>（其实放哪都行，因为启动需要 <code>sudo</code> 权限所以放在根目录下了），使用方法：</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置一次启动权限</span>
 <span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/start-gnome-vnc.sh
 
-<span class="token function">sudo</span> <span class="token function">bash</span> start-gnome-vnc.sh  <span class="token comment"># 启动全部脚本</span>
+<span class="token function">sudo</span> <span class="token function">bash</span> start-gnome-vnc.sh <span class="token environment constant">$USER</span>  <span class="token comment"># 启动全部脚本, 以用户权限启动gnome服务</span>
 
 <span class="token comment"># ctrl+c即可退出, 并自动kill掉所有启动的进程</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-<p>脚本功能：按照上述流程依次启动X服务、DBus会话服务、gnome会话、x11vnc转发、noVNC网页可视化；并自动检查<code>6080</code>端口是否被占用，若占用则说明已启动，无需再次启动</p>
-<ol>
-<li>下面脚本中的x11vnc密码就用<code>/root/.vnc/passwd</code>了，按需调整密码保存的位置（脚本由ChatGPT 4o生成）</li>
-<li>需要调整noVNC保存的路径哦</li>
-</ol>
+<p><strong>修改其中的39行，为你的noVNC路径位置；如果没有设置x11vnc密码，则分别注释33行和解注35行</strong></p>
 <div class='spoiler collapsed'>
     <div class='spoiler-title'>
         start-gnome-vnc.sh脚本
@@ -792,6 +794,7 @@ x11vnc <span class="token parameter variable">-display</span> :1 <span class="to
 <span class="token function">wait</span> <span class="token variable">$x_pid</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
     </div>
 </div>
+<p>脚本功能：按照上述流程依次启动X服务、DBus会话服务、gnome会话、x11vnc转发、noVNC网页可视化；并自动检查<code>6080</code>端口是否被占用，若占用则说明已启动，无需再次启动</p>
 <p>进一步可以在<code>~/.bashrc</code>中加入快捷启动命令：</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ~/.bashrc</span>
 <span class="token builtin class-name">alias</span> start-gnome-vnc<span class="token operator">=</span><span class="token string">"sudo bash /usr/local/bin/start-gnome-vnc.sh <span class="token environment constant">$USER</span>"</span>
@@ -804,7 +807,15 @@ start-gnome-vnc  <span class="token comment"># 即可一键启动了</span>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">❯ <span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"Xorg :1"</span>
 root     <span class="token number">3557222</span>  <span class="token number">0.2</span>  <span class="token number">0.0</span>  <span class="token number">15008</span>  <span class="token number">4844</span> pts/5    S+   <span class="token number">21</span>:40   <span class="token number">0</span>:00 <span class="token function">sudo</span> Xorg :1
 root     <span class="token number">3557223</span> <span class="token number">20.2</span>  <span class="token number">0.0</span> <span class="token number">26109244</span> <span class="token number">219564</span> tty2  Ssl+ <span class="token number">21</span>:40   <span class="token number">0</span>:00 /usr/lib/xorg/Xorg :1  <span class="token comment"># 注意是这个/usr/lib/xorg/Xorg</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
-<h2 id="nvidia-jetson可视化配置"><a class="markdownIt-Anchor" href="#nvidia-jetson可视化配置"></a> Nvidia Jetson可视化配置</h2>
+<h1 id="nvidia-jetson可视化配置"><a class="markdownIt-Anchor" href="#nvidia-jetson可视化配置"></a> Nvidia Jetson可视化配置</h1>
+<p>仅需安装x11vnc和noVNC，详细用法介绍请见上文<a href="./#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%B1%8F%E5%B9%95%E5%85%B1%E4%BA%AB">局域网屏幕共享</a>，这里给出直接使用方法</p>
+<h3 id="安装依赖包"><a class="markdownIt-Anchor" href="#安装依赖包"></a> 安装依赖包</h3>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> x11vnc
+<span class="token comment"># 创建noVNC存储位置</span>
+<span class="token function">mkdir</span> ~/Programs
+<span class="token builtin class-name">cd</span> ~/Programs
+<span class="token function">git</span> clone https://github.com/novnc/noVNC.git<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="添加配置文件"><a class="markdownIt-Anchor" href="#添加配置文件"></a> 添加配置文件</h3>
 <p>和普通Nvidia显卡不同的是X启动服务的配置文件，添加配置文件<code>/etc/X11/xorg-nvidia-dummy-monitor.conf</code>如下（还是如上文提到，下载<a href="/file/linux_screen_sharing/edid.bin">edid.bin</a>放到<code>/etc/X11/edid.bin</code>下）：</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Section <span class="token string">"Module"</span>
     Disable     <span class="token string">"dri"</span>
@@ -846,7 +857,9 @@ Section <span class="token string">"ServerLayout"</span>
     Identifier     <span class="token string">"Layout0"</span>
     Screen         <span class="token string">"Screen0"</span>
 EndSection<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h3 id="创建一键使用脚本"><a class="markdownIt-Anchor" href="#创建一键使用脚本"></a> 创建一键使用脚本</h3>
 <p>最后使用上文提到的<a href="./#%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC">一键启动脚本</a>启动即可</p>
+<p>注意：显示屏和x11vnc同时只能启动一个，因此使用x11vnc时需要先提前注销或拔出显示屏</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
                 
               </div>
