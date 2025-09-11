@@ -19,12 +19,12 @@
   <meta name="author" content="wty">
   <meta name="keywords" content="">
   
-    <meta name="description" content="UPDATE: 2024.6.12.加入星火商店安装程序 UPDATE: 2024.11.16.加入Ubuntu24.04相关内容 UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动   My Ubuntu 第一次安装 Ubuntu22.04 LTS 记录下安装遇到的问题和解决方法。   当前Ubuntu已经能够完美支持微信(不完全是原生)和QQ(原生)了，文档处理使用WP">
+    <meta name="description" content="UPDATE: 2024.6.12.加入星火商店安装程序 UPDATE: 2024.11.16.加入Ubuntu24.04相关内容 UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动 UPDATE: 2025.9.11.加入自启动配置简化, Clash for Windows图标下载地址, Firefox的apt版重装   My Ubuntu 第一次安装 Ubuntu22.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零配置Ubuntu全过程">
 <meta property="og:url" content="https://wty-yy.xyz/posts/46722/index.html">
 <meta property="og:site_name" content="wty&#39;s blog">
-<meta property="og:description" content="UPDATE: 2024.6.12.加入星火商店安装程序 UPDATE: 2024.11.16.加入Ubuntu24.04相关内容 UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动   My Ubuntu 第一次安装 Ubuntu22.04 LTS 记录下安装遇到的问题和解决方法。   当前Ubuntu已经能够完美支持微信(不完全是原生)和QQ(原生)了，文档处理使用WP">
+<meta property="og:description" content="UPDATE: 2024.6.12.加入星火商店安装程序 UPDATE: 2024.11.16.加入Ubuntu24.04相关内容 UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动 UPDATE: 2025.9.11.加入自启动配置简化, Clash for Windows图标下载地址, Firefox的apt版重装   My Ubuntu 第一次安装 Ubuntu22.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/Ubuntu%E4%B8%BB%E9%A2%98%E6%A1%8C%E9%9D%A2.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/Ubuntu%E9%85%8D%E7%BD%AE%E5%90%8E%E6%95%88%E6%9E%9C%E5%9B%BE.png">
@@ -41,6 +41,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E7%81%AB%E7%8B%90%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AE%A1%E7%90%86%E6%8F%92%E4%BB%B6.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/tweaks%E5%A4%96%E8%A7%82%E9%85%8D%E7%BD%AE.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E9%BC%A0%E6%A0%87%E5%A4%A7%E5%B0%8F%E4%BF%AE%E6%94%B9.png">
+<meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/tweaks_autostart.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%8F%9C%E5%8D%95%E6%95%88%E6%9E%9C%E5%9B%BE.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E7%BD%91%E6%98%93%E4%BA%91%E8%84%9A%E6%9C%AC%E4%BF%AE%E6%94%B9.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E5%85%A8%E9%83%A8%E5%AD%97%E4%BD%93.png">
@@ -52,7 +53,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96-%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8.png">
 <meta property="article:published_time" content="2023-03-31T17:28:49.000Z">
-<meta property="article:modified_time" content="2025-07-09T07:12:31.068Z">
+<meta property="article:modified_time" content="2025-09-11T09:06:42.843Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/My_Ubuntu.assets/Ubuntu%E4%B8%BB%E9%A2%98%E6%A1%8C%E9%9D%A2.png">
@@ -330,7 +331,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.8k 字
+          7k 字
         
       </span>
     
@@ -341,7 +342,7 @@
         
         
         
-          57 分钟
+          59 分钟
         
       </span>
     
@@ -386,7 +387,8 @@
                 <blockquote>
 <p>UPDATE: 2024.6.12.加入星火商店安装程序<br />
 UPDATE: 2024.11.16.加入Ubuntu24.04相关内容<br />
-UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动</p>
+UPDATE: 2025.7.9.加入内核切换和手动安装Nvidia驱动<br />
+UPDATE: 2025.9.11.加入自启动配置简化, Clash for Windows图标下载地址, Firefox的apt版重装</p>
 </blockquote>
 <h1 id="my-ubuntu"><a class="markdownIt-Anchor" href="#my-ubuntu"></a> My Ubuntu</h1>
 <p>第一次安装 Ubuntu22.04 LTS 记录下安装遇到的问题和解决方法。</p>
@@ -536,6 +538,43 @@ GRUB_TIMEOUT<span class="token operator">=</span><span class="token number">10</
 </blockquote>
 <p><strong>一个经典安装问题</strong>：GCC版本问题，在Ubuntu20或22上，可能需要更新到GCC-12，才能安装570的驱动</p>
 <h2 id="软件安装"><a class="markdownIt-Anchor" href="#软件安装"></a> 软件安装</h2>
+<h3 id="firefox浏览器apt版重装"><a class="markdownIt-Anchor" href="#firefox浏览器apt版重装"></a> Firefox浏览器apt版重装</h3>
+<p>如果你打算继续使用Firefox（后续主题自定义会用到Firefox gnome extension），则一定要先卸载默认安装的，因为其使用的snap安装存在很多兼容性问题，安装方法参考 <a target="_blank" rel="noopener" href="https://askubuntu.com/a/1404401">How to install Firefox as a traditional deb package (without snap) in Ubuntu 22.04 or later versions?</a></p>
+<p>添加官方APT源</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> add-apt-repository ppa:mozillateam/ppa<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>运行以下命令修改 apt 版本的 Firefox 优先于 snap 版本</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">'
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+
+Package: firefox
+Pin: version 1:1snap*
+Pin-Priority: -1
+'</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/apt/preferences.d/mozilla-firefox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>卸载snap版Firefox</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> snap remove firefox<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        点击显/隐 snap卸载报错解决方法
+    </div>
+    <div class='spoiler-content'>
+        <p>如果snap卸载报错：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">error: cannot perform the following tasks:
+- Remove data <span class="token keyword">for</span> snap <span class="token string">"firefox"</span> <span class="token punctuation">(</span><span class="token number">1943</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>unlinkat /var/snap/firefox/common/host-hunspell/en_ZA.dic: read-only <span class="token function">file</span> system<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>删除以下文件，便于GNOME扩展可以直接使用</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">rm</span> /etc/apparmor.d/usr.bin.firefox
+<span class="token function">sudo</span> <span class="token function">rm</span> /etc/apparmor.d/local/usr.bin.firefox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>停止hunspell服务并重新尝试卸载</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl stop var-snap-firefox-common-host<span class="token punctuation">\</span><span class="token punctuation">\</span>x2dhunspell.mount
+<span class="token function">sudo</span> systemctl disable var-snap-firefox-common-host<span class="token punctuation">\</span><span class="token punctuation">\</span>x2dhunspell.mount
+<span class="token function">sudo</span> snap remove firefox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
+<p>安装apt版firefox，可以从下载源看出是apt还是snap版的</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> firefox<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>最后为避免自动更新导致snap版重装，执行以下命令</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:$&#123;distro_codename&#125;";'</span> <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/apt/apt.conf.d/51unattended-upgrades-firefox<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
 <h3 id="安装中文输入法"><a class="markdownIt-Anchor" href="#安装中文输入法"></a> 安装中文输入法</h3>
 <p>常用有两种输入法：<strong>Fcitx, IBus</strong></p>
 <p>使用了Fcitx4和IBus输入法后，最终选择了比较新的Fcitx5，输入非常流畅，比较推荐使用，安装教程参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/508797663">知乎 - Ubuntu22.04安装Fcitx5中文输入法（详细）</a>。</p>
@@ -583,25 +622,12 @@ im-config <span class="token parameter variable">-s</span> ibus  <span class="to
     </div>
 </div>
 <h3 id="主题自定义"><a class="markdownIt-Anchor" href="#主题自定义"></a> 主题自定义</h3>
-<p>这里无需修改Firefox版本，也可以使用gnome-shell，只需要下载插件 <a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/gnome-shell-integration/">GNOME Shell</a> 即可直接而使用。</p>
-<div class='spoiler collapsed'>
-    <div class='spoiler-title'>
-        之前修改Firefox版本的方法
-    </div>
-    <div class='spoiler-content'>
-        <p>首先参考 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cu4hrOYRt0c&amp;t=217s">YouTube - 15 Things to Do After Installing Ubuntu 22.04</a> 进行Firefox 优化：安装Mozilla Firefox，速度更快，且能使用GNOME插件管理器，原版是snap版本，类似于镜像版本，功能少很多。<a target="_blank" rel="noopener" href="https://www.mozilla.org/en-US/firefox/new/">Firefox - 下载连接</a>，<a target="_blank" rel="noopener" href="https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-from-mozilla-builds-for-advanced-users">Firefox - 替换方法</a>。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> https://raw.githubusercontent.com/mozilla/sumo-kb/main/install-firefox-linux/firefox.desktop  <span class="token comment"># 先wget下来（如果不能使用sudo下载这个链接）</span>
-<span class="token function">sudo</span> <span class="token function">mkdir</span> /usr/local/share/applications  <span class="token comment"># 这个文件夹可能不存在</span>
-<span class="token function">sudo</span> <span class="token function">mv</span> firefox.desktop /usr/local/share/applications  <span class="token comment"># 最后移动到快捷搜索路劲中	</span>
-/usr/local/bin/firefox <span class="token comment"># 执行这句话就能打开新的火狐浏览器</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-    </div>
-</div>
 <p>安装插件管理器</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> gnome-tweaks  <span class="token comment"># gnome管理器</span>
 <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> chrome-gnome-shell  <span class="token comment"># 插件管理器</span>
 <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> gnome-shell-extensions  <span class="token comment"># 安装extension，可以配置安装的插件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
 <p>安装完后打开网页(<a target="_blank" rel="noopener" href="https://extensions.gnome.org/">https://extensions.gnome.org/</a>)，点击上面信任插件安装，最后效果如下：</p>
+<p>这里如果发现Firefox无法打开网站，推荐先用上述<a href="./#firefox%E6%B5%8F%E8%A7%88%E5%99%A8apt%E7%89%88%E9%87%8D%E8%A3%85">Firefox的apt版重装</a>，再下载Firefox插件 <a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/gnome-shell-integration/">Firefox addon - GNOME Shell</a> 即可直接而使用。</p>
 <p><img src="/figures/My_Ubuntu.assets/%E7%81%AB%E7%8B%90%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AE%A1%E7%90%86%E6%8F%92%E4%BB%B6.png" srcset="/img/loading.gif" lazyload alt="FireFox浏览器管理插件" /></p>
 <p>需要先在 extension manager 中安装 <code>User Themes</code>，才能进一步进行下述操作，安装主题可参考 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=4yA9IAY9pJU">Give Your GNOME A Fresh And Elegant Look With Orchis Theme 2022 |  Ubuntu 22.04 Customization</a>。</p>
 <blockquote>
@@ -681,12 +707,21 @@ map <span class="token punctuation">;</span><span class="token keyword">y</span>
 <span class="token function">sh</span> <span class="token parameter variable">-c</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">wget</span> -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="token variable">)</span></span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <p>可以直接从<a target="_blank" rel="noopener" href="https://github.com/wty-yy/dotfiles">我的dotfiles</a>中配置zsh，oh-my-zsh，vim，介绍内容已经写的非常详细了，有一键安装脚本。</p>
 <h3 id="clash安装-快捷方式-自动启动"><a class="markdownIt-Anchor" href="#clash安装-快捷方式-自动启动"></a> Clash安装、快捷方式、自动启动</h3>
-<p><strong>Clash科学上网</strong>：我使用的是 Clash for windows 也就是可视化的Clash，参考教程：<a target="_blank" rel="noopener" href="https://www.cfmem.com/2021/09/linux-clash-for-windows-vpnv2ray.html">Linux/ubuntu下实现科学上网使用 clash for windows 详细步骤</a>，对应的YouTube教程：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=pTlso8m_iRk&amp;t=314s">https://www.youtube.com/watch?v=pTlso8m_iRk&amp;t=314s</a></p>
-<p>设置开机自启，在目录 <code>~/.config/autostart/</code> 下用vim编辑 <code>clash.desktop</code> 文件并保存</p>
+<p><strong>Clash科学上网</strong>：我使用的是 Clash for windows 也就是可视化的Clash，下载链接 <a target="_blank" rel="noopener" href="https://github.com/clashdownload/Clash_for_Windows/releases">Github - clashdownload</a>，参考教程：<a target="_blank" rel="noopener" href="https://www.cfmem.com/2021/09/linux-clash-for-windows-vpnv2ray.html">Linux/ubuntu下实现科学上网使用 clash for windows 详细步骤</a>，对应的YouTube教程：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=pTlso8m_iRk&amp;t=314s">https://www.youtube.com/watch?v=pTlso8m_iRk&amp;t=314s</a></p>
+<p>新的自启动方法：（前提先要完成下面的自定义菜单，将Clash加入菜单快捷方式后）安装完上述的 <code>gnome-tweaks</code> 后，打开 <code>tweaks</code> 找到左侧 <code>Startup Applications</code>，点击 <code>+</code> 号添加菜单快捷方式到自启动中。<br />
+<img src="/figures/My_Ubuntu.assets/tweaks_autostart.png" srcset="/img/loading.gif" lazyload alt="tweaks中设置自启动" /></p>
+<div class='spoiler collapsed'>
+    <div class='spoiler-title'>
+        点击显/隐 旧自启动方法
+    </div>
+    <div class='spoiler-content'>
+        <p>设置开机自启，在目录 <code>~/.config/autostart/</code> 下用vim编辑 <code>clash.desktop</code> 文件并保存</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-vim" data-language="vim"><code class="language-vim"><span class="token punctuation">[</span>Desktop Entry<span class="token punctuation">]</span>
 Name<span class="token operator">=</span>Clash
 Type<span class="token operator">=</span>Application
 Exec<span class="token operator">=</span><span class="token operator">/</span>home<span class="token operator">/</span>wty<span class="token operator">/</span>Programs<span class="token operator">/</span>Clash<span class="token operator">/</span>cfw<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    </div>
+</div>
 <h4 id="自定义菜单"><a class="markdownIt-Anchor" href="#自定义菜单"></a> 自定义菜单</h4>
 <p>参考YouTube教程：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gdYp2d_p8T0">How to add appimage to Linux menu</a>，网页教程来自 <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/desktop_entries">archLinux Desktop entries</a>，以创建 <code>clash</code> 的快捷方式为例：</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/.local/share/applications/  <span class="token comment"># 该文件夹存储 .desktop 后缀的文件，该文件的格式如网站中所描述，下面是一个例子</span>
@@ -698,8 +733,11 @@ Type <span class="token operator">=</span> Application
 Name <span class="token operator">=</span> Clash
 <span class="token comment"># 文件的可执行文件绝对路径</span>
 Exec <span class="token operator">=</span> /home/wty/Programs/Clash/cfw
-<span class="token comment"># 可选项，文件图标，从晚上下载下来即可</span>
+<span class="token comment"># 可选项，文件图标，从网上下载下来即可</span>
 Icon <span class="token operator">=</span> /home/wty/Pictures/icons/clash.png<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<blockquote>
+<p>这里给出我的<a href="/figures/My_Ubuntu.assets/clash_icon.png">Clash图标链接</a></p>
+</blockquote>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 使用下面代码检查正确性</span>
 desktop-file-validate clash.desktop
 <span class="token comment"># 保存文件后，输入以下命令刷新菜单，完成配置</span>

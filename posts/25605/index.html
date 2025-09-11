@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_D435i_ROS2_view.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_rs_ros_node_python_cv_show.png">
 <meta property="article:published_time" content="2024-12-29T06:47:35.000Z">
-<meta property="article:modified_time" content="2025-01-04T05:22:06.395Z">
+<meta property="article:modified_time" content="2025-09-11T08:53:41.321Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_flash_real1.jpg">
@@ -319,7 +319,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          3.6k 字
         
       </span>
     
@@ -330,7 +330,7 @@
         
         
         
-          28 分钟
+          31 分钟
         
       </span>
     
@@ -422,21 +422,25 @@
 </tr>
 </tbody>
 </table>
-<h3 id="docker-cli-安装514"><a class="markdownIt-Anchor" href="#docker-cli-安装514"></a> Docker CLI 安装5.1.4</h3>
+<h3 id="docker-cli-安装-推荐"><a class="markdownIt-Anchor" href="#docker-cli-安装-推荐"></a> Docker CLI 安装 (推荐)</h3>
 <blockquote>
-<p>由于我的host主机是Ubuntu24.02，无法安装5.1.4，必须用镜像，推荐用可视化窗口安装</p>
+<p>由于我的host主机是Ubuntu24.02，无法安装6.2.1和5.1.4，必须用镜像安装（Nvidia agx nano的最高版本支持就是6.2.1，7.*不再支持）</p>
 </blockquote>
-<p>进入<a target="_blank" rel="noopener" href="https://developer.nvidia.com/sdk-manager">skd-manager下载界面</a>，下载Docker Image Ubuntu18.04 (20.04)也可以安装JetPack 5.x，下载完成后加载镜像，并重新命名为sdkmanager:</p>
+<p>进入<a target="_blank" rel="noopener" href="https://developer.nvidia.com/sdk-manager">skd-manager下载界面</a>，下载Docker Image Ubuntu18.04 (20.04)可以安装JetPack 5.x，Ubuntu22.04可以安装JetPack 6.2.1，下载完成后加载镜像，并重新命名为sdkmanager:</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> load <span class="token parameter variable">-i</span> sdkmanager-<span class="token punctuation">[</span>版本号<span class="token punctuation">]</span>-Ubuntu_18.04_docker.tar.gz
 <span class="token function">docker</span> tag sdkmanager:<span class="token punctuation">[</span>版本号<span class="token punctuation">]</span>-Ubuntu_18.04 sdkmanager:latest<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
 <p>参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/sdk-manager/docker-containers/index.html">SDK Manager - Docker Images</a>中的教程，执行如下命令行就可以安装<code>5.1.4</code>版本的了，如果不是AGX型号，修改<code>--target JETSON_AGX_ORIN_TARGETS</code>为对应的型号（全部支持的型号参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/sdk-manager/system-requirements/index.html#target-device">SDK Manager - target-device</a>）</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-it</span> <span class="token parameter variable">--privileged</span> <span class="token punctuation">\</span>
     <span class="token parameter variable">-v</span> /dev/bus/usb:/dev/bus/usb/ <span class="token parameter variable">-v</span> /dev:/dev <span class="token parameter variable">-v</span> /media/<span class="token environment constant">$USER</span>:/media/nvidia:slave <span class="token punctuation">\</span>
+    <span class="token parameter variable">-v</span> ~/nvidia/sdkmanager_data:/home/nvidia/Downloads/nvidia <span class="token punctuation">\</span>
     <span class="token parameter variable">--name</span> JetPack_AGX_Orin_Devkit <span class="token parameter variable">--network</span> <span class="token function">host</span> <span class="token punctuation">\</span>
     sdkmanager <span class="token parameter variable">--cli</span> <span class="token parameter variable">--action</span> <span class="token function">install</span> --login-type devzone <span class="token punctuation">\</span>
     <span class="token parameter variable">--product</span> Jetson --target-os Linux <span class="token parameter variable">--version</span> <span class="token number">5.1</span>.4 <span class="token punctuation">\</span>
     <span class="token parameter variable">--target</span> JETSON_AGX_ORIN_TARGETS <span class="token parameter variable">--flash</span> <span class="token parameter variable">--license</span> accept <span class="token punctuation">\</span>
-    --stay-logged-in <span class="token boolean">true</span> --collect-usage-data <span class="token builtin class-name">enable</span> --exit-on-finish<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+    --stay-logged-in <span class="token boolean">true</span> --collect-usage-data <span class="token builtin class-name">enable</span> --exit-on-finish<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<blockquote>
+<p>这里在官方的基础上加了一行 <code>-v ~/nvidia/sdkmanager_data:/home/nvidia/Downloads/nvidia</code>，这样可以将下载的内容挂载到宿主机，无需重复下载</p>
+</blockquote>
 <p>这部分主要分为两步，下载部件，烧录Ubuntu系统</p>
 <table>
 <thead>
@@ -459,7 +463,7 @@
 <thead>
 <tr>
 <th>选择Install，选择Ethernet cable，IPv4，输入AGX的IP</th>
-<th>开始自动安装第二部分(CUDA等)</th>
+<th>开始自动安装第二部分(CUDA, container等)</th>
 <th>安装完毕!</th>
 </tr>
 </thead>
@@ -482,11 +486,23 @@
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-it</span> <span class="token parameter variable">--rm</span> <span class="token parameter variable">--privileged</span> <span class="token parameter variable">-v</span> /dev/bus/usb:/dev/bus/usb/ jetpack_agx_orin_devkit:5.1.4_flash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
     </div>
 </div>
+<h2 id="前置工作"><a class="markdownIt-Anchor" href="#前置工作"></a> 前置工作</h2>
+<ol>
+<li>如果有加装固态硬盘需要手动进行挂载，参考 <a href="/posts/64648/#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8F%8A%E6%8C%82%E8%BD%BD%E7%A1%AC%E7%9B%98">常用命令及函数 - Linux -  格式化及挂载硬盘</a></li>
+<li>配置Docker的用户权限，参考 <a href="/posts/51856/#docker-%E5%AE%89%E8%A3%85">Docker安装与常用命令 - Docker 安装</a></li>
+<li>如果有固态硬盘推荐将Docker存储位置移动到固态上，参考 <a href="/posts/51856/#docker-%E7%A7%BB%E5%8A%A8%E9%95%9C%E5%83%8F%E4%BD%8D%E7%BD%AE">Docker安装与常用命令 - Docker 移动镜像位置</a></li>
+<li>Ubuntu22.04以上版本Fcitx5的中文输入法安装及外观/字体大小调整，参考 <a href="/posts/46722/#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95">从零配置Ubuntu全过程 - 安装中文输入法</a></li>
+<li>Clash快捷方式设置及自启动，参考 <a href="/posts/46722/#clash%E5%AE%89%E8%A3%85-%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8">从零配置Ubuntu全过程 -  Clash安装、快捷方式、自动启动</a></li>
+<li>网络配置，如果agx和其他的主机需要通过网线直连，则要设置静态IP，参考 <a href="/posts/1797/">乐聚Kuavo机器人上位机静态网络配置</a></li>
+</ol>
 <h2 id="realsense-sdk-ros-安装"><a class="markdownIt-Anchor" href="#realsense-sdk-ros-安装"></a> RealSense SDK &amp; ROS 安装</h2>
 <h3 id="jetpack-5x"><a class="markdownIt-Anchor" href="#jetpack-5x"></a> JetPack 5.x</h3>
 <p>直接按照官网的安装方法安装即可: <a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_jetson.md#4-install-with-debian-packages"><code>4. Install with Debian Packages</code></a><br />
 安装完成后执行<code>realsense-viewer</code>插上摄像头即可看到图像(IMU也可以识别)</p>
-<h3 id="jetpack-6x"><a class="markdownIt-Anchor" href="#jetpack-6x"></a> JetPack 6.x</h3>
+<h3 id="jetpack-6x-万能方法"><a class="markdownIt-Anchor" href="#jetpack-6x-万能方法"></a> JetPack 6.x （万能方法）</h3>
+<blockquote>
+<p>因为这个方法不依赖内核编译，理论上任何Linux设备都能直接使用，推荐用该方法安装。</p>
+</blockquote>
 <p>参考realsense官方人员给出的回复(<a target="_blank" rel="noopener" href="https://support.intelrealsense.com/hc/en-us/community/posts/31576776977427-cannot-connect-D455-on-jetson-agx-orin">帖子</a>)，因为包含IMU摄像头为HID设备，需要MIPI驱动，安装这个驱动非常麻烦，参考<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense_mipi_platform_driver">realsense_mipi_platform_driver</a>，基本没有仍和参考文档，根本装不上。</p>
 <p>帖子下方给出了另一个<a target="_blank" rel="noopener" href="https://support.intelrealsense.com/hc/en-us/community/posts/31576776977427/comments/31683171974419">很好的方法</a>，基于<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/librealsense/blob/master/doc/libuvc_installation.md">libuvc_installation.md</a>安装UVC后端的realsense即可，三行即可解决</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> https://github.com/IntelRealSense/librealsense/raw/master/scripts/libuvc_installation.sh
@@ -503,6 +519,7 @@ gnome-text-editor libuvc_installation.sh
 rs-fw-update <span class="token parameter variable">-f</span> Signed_Image_UVC_5_12_7_100.bin  <span class="token comment"># 安装驱动</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
 <p>安装完成后执行<code>realsense-viewer</code>插上摄像头即可看到图像🥰(还可以看到IMU哦)<br />
 <img src="/figures/robotics/Jetson/AGX_JetPack6.1_UVC_D435i_realsense-viewer.png" srcset="/img/loading.gif" lazyload alt="JetPack 6.1安装UVC后端显示realsense-viewer连接D435i" /></p>
+<h3 id="硬盘自动挂载"><a class="markdownIt-Anchor" href="#硬盘自动挂载"></a> 硬盘自动挂载</h3>
 <h3 id="ros2中启动realsense相机节点"><a class="markdownIt-Anchor" href="#ros2中启动realsense相机节点"></a> ROS2中启动realsense相机节点</h3>
 <p>我安装的ROS2版本为humble，直接按照官方给出的教程<a target="_blank" rel="noopener" href="https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html">Ubuntu-Install-Debs</a>即可轻松安装</p>
 <p>完成ROS2安装后，参考<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense-ros/issues/3075#issuecomment-2082810453">No RealSense devices were found! 中的评论</a>，必须使用源码编译方式安装才能检测到相机，参考官方<a target="_blank" rel="noopener" href="https://github.com/IntelRealSense/realsense-ros?tab=readme-ov-file#installation-on-ubuntu">realsense-ros installation-on-ubuntu Step3 Option2</a>安装</p>

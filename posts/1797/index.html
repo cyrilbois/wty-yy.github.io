@@ -27,7 +27,7 @@
 <meta property="og:description" content="记一次将乐聚Kuavo45的上位机从Intel的换成Nvidia Jetson AGX网络配置过程，分为两步上下位机的连接和Mid-360雷达连接  网络配置 Ubuntu桌面版默认使用NetworkManager来管理网络配置，命令行版使用systemd-networkd来管理，而我们要用的是netplan是基于他们之上的管理器，这里就用它来创建每个网口的静态IP sudo apt instal">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-31T11:27:33.000Z">
-<meta property="article:modified_time" content="2025-08-31T13:47:33.636Z">
+<meta property="article:modified_time" content="2025-09-11T09:15:29.092Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -304,7 +304,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          460 字
+          537 字
         
       </span>
     
@@ -315,7 +315,7 @@
         
         
         
-          4 分钟
+          5 分钟
         
       </span>
     
@@ -402,7 +402,15 @@ lo                loopback  unmanaged                              --<span aria-
 <span class="token function">ip</span> addr show enx00e04c360015
 <span class="token function">ifconfig</span> enx00e04c360015<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <h3 id="上位机配置"><a class="markdownIt-Anchor" href="#上位机配置"></a> 上位机配置</h3>
-<p>由于上下位机之间没有路由，因此需要通过静态IP来相互连接上，上位机IP为<code>192.168.26.12</code>，下位机IP为<code>192.168.26.1</code>，找到对应网口为<code>eno1</code></p>
+<p>由于上下位机之间没有路由，因此需要通过静态IP来相互连接上，上位机IP为<code>192.168.26.12</code>，下位机IP为<code>192.168.26.1</code>，子网掩码为<code>255.255.255.0</code>，首先找到对应网口为<code>eno1</code>，配置<code>/etc/netplan/01-eno1.yaml</code>文件为</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">network</span><span class="token punctuation">:</span>
+  <span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token number">2</span>
+  <span class="token key atrule">renderer</span><span class="token punctuation">:</span> NetworkManager
+  <span class="token key atrule">ethernets</span><span class="token punctuation">:</span>
+    <span class="token key atrule">eno1</span><span class="token punctuation">:</span>
+      <span class="token key atrule">dhcp4</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token key atrule">addresses</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>192.168.26.12/24<span class="token punctuation">]</span>  <span class="token comment"># 上位机与下位机连接的IP为192.168.26.12</span>
+      <span class="token comment"># 子网掩码为255.255.255.0 (就是这个/24, 表示掩码前24位为1), 网段为192.1.68.26.*</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
 <h3 id="mid-360雷达配置"><a class="markdownIt-Anchor" href="#mid-360雷达配置"></a> Mid-360雷达配置</h3>
 <p>由于连接雷达需要配置静态IP: <code>192.168.1.50</code>, 找到对应网口为<code>enx00e04c360015</code>，对应MAC地址为<code>00:e0:4c:36:00:15</code>，编辑配置文件</p>
 <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/netplan/02-mid360.yaml
@@ -435,6 +443,34 @@ network:
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Robotics/" class="category-chain-item">Robotics</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Robotics/Real/" class="category-chain-item">Real</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
