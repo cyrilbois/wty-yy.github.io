@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_D435i_ROS2_view.png">
 <meta property="og:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_rs_ros_node_python_cv_show.png">
 <meta property="article:published_time" content="2024-12-29T06:47:35.000Z">
-<meta property="article:modified_time" content="2025-09-12T03:53:35.514Z">
+<meta property="article:modified_time" content="2025-09-12T04:11:57.094Z">
 <meta property="article:author" content="wty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wty-yy.xyz/figures/robotics/Jetson/AGX_flash_real1.jpg">
@@ -501,6 +501,10 @@
 <li>Clash快捷方式设置及自启动，参考 <a href="/posts/46722/#clash%E5%AE%89%E8%A3%85-%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8">从零配置Ubuntu全过程 -  Clash安装、快捷方式、自动启动</a></li>
 <li>网络配置，如果agx和其他的主机需要通过网线直连，则要设置静态IP，参考 <a href="/posts/1797/">乐聚Kuavo机器人上位机静态网络配置</a></li>
 <li>VNC网页版可视化界面，参考 <a href="/posts/47970/#nvidia-jetson%E5%8F%AF%E8%A7%86%E5%8C%96%E9%85%8D%E7%BD%AE">实现Linux无头模式下硬件加速的屏幕共享 - Nvidia Jetson可视化配置</a></li>
+<li>推荐安装jtop查看显卡使用率： <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> python3-pip
+<span class="token function">sudo</span> pip3 <span class="token function">install</span> <span class="token parameter variable">-U</span> jetson-stats
+jtop  <span class="token comment"># 类似nvitop</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+通过jtop下方第六项CTRL，可以修改当前的功率大小，推荐开到最大功率 <code>MAXN</code></li>
 </ol>
 <p>如果发现 <code>sudo apt update</code> 中报错docker源不正确，可以直接删除 <code>sudo rm /etc/apt/sources.list.d/docker.list</code> 文件，再次更新则不会报错。（因为后续无需对docker升级所以删除源不会有影响）</p>
 <h3 id="docker测试容器cuda可用性"><a class="markdownIt-Anchor" href="#docker测试容器cuda可用性"></a> Docker测试容器CUDA可用性</h3>
